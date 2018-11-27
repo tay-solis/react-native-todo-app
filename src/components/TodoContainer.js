@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, Button, FlatList, Image} from 'react-native';
 
 import Todo from './Todo'
+import Todos from './Todos'
 import TodoModal from './modals/TodoModal'
 
 class LogoTitle extends React.Component {
@@ -42,6 +43,7 @@ export default class TodoContainer extends Component {
       todoName: val,
     });
   }
+
 
   todoSubmitHandler = () =>{
     let dateSubmitted = Date.now();
@@ -108,11 +110,11 @@ export default class TodoContainer extends Component {
             onModalClose={this.onModalClose}
           />
         }
-        <Button
+        {/* <Button
           title="My Profile"
           color='#be95ff'
           onPress={() => this.props.navigation.navigate('Profile')}
-        />
+        /> */}
 
         <Text style={styles.welcome}>What do you need to get done?</Text>
         <View style={styles.inputsContainer}>
@@ -120,6 +122,7 @@ export default class TodoContainer extends Component {
           style={styles.inputs}
           value={this.state.todoName}
           onChangeText = {this.todoNameChangedHandler}
+          onSubmitEditing = {this.todoSubmitHandler}
           placeholder = "Make a to-do list"
         />
         <Button
@@ -129,16 +132,10 @@ export default class TodoContainer extends Component {
           color='#be95ff'
         />
         </View>
-        <FlatList
-        style={{width: '100%', marginTop: 5}}
-        data={this.state.todos}
-        renderItem={ (todo) => <Todo
-          onDetailsPress={this.onDetailsPress}
-          onDeletePress={this.onDeletePress}
-          todoName={todo.item.value}
-          key={todo.item.key}
-          dateSubmitted={todo.item.dateSubmitted}/>
-        }
+        <Todos
+        todos={this.state.todos}
+        onDetailsPress={this.onDetailsPress}
+        onDeletePress={this.onDeletePress}
         />
       </View>
     );
@@ -173,8 +170,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
-  todos: {
-    width: '100%',
-    marginTop: 5
-  }
 });
