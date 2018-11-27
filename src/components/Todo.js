@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {StyleSheet, View, Text, TouchableOpacity, Button} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 class Todo extends Component{
     onDeletePress = () =>{
@@ -17,8 +18,7 @@ class Todo extends Component{
                     style={styles.delete}
                     onPress={this.onDeletePress}
                     >
-                        <Text
-                        style={styles.deleteText}>X</Text>
+                      <MaterialCommunityIcons name="close-circle" size={24} color='#333' />
                     </TouchableOpacity>
                     <Text >
                         {this.props.todoName}
@@ -45,28 +45,23 @@ const styles = StyleSheet.create({
 		width: '100%',
 		padding: 10,
 		fontSize: 16,
-        backgroundColor: '#eee',
-        marginBottom: 5,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingRight: 20
+    backgroundColor: '#eee',
+    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingRight: 20
     },
     delete: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
         padding: 2,
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
         borderRadius: 10,
         fontSize: 18,
-        backgroundColor: '#333',
         marginLeft: 20,
         marginRight: 10,
-    },
-    deleteText:{
-        color: '#EEE',
     },
     details:{
         marginRight: 20
