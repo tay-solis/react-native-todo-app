@@ -7,14 +7,16 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
-import { Button, } from 'react-native-paper';
+import {StyleSheet, Text, View, Modal} from 'react-native';
+import {Button} from 'react-native-paper';
 
 import Todos from './Todos'
 import TodoModal from './modals/TodoModal'
 import ProgressModal from './modals/ProgressModal'
+import BubbleModal from './modals/BubbleModal'
 import AddTodoForm from './AddTodoForm'
 import AddProgressForm from './AddProgressForm'
+import AddBubbleForm from './AddBubbleForm'
 
 export default class TodoContainer extends Component {
 
@@ -22,15 +24,29 @@ export default class TodoContainer extends Component {
     todos: [],
     selectedTodo: null,
     selectedProgress: null,
+    selectedBubble: null,
     todoFormOpen: false,
     progressFormOpen: false,
+    bubbleFormOpen: false,
+    addModalOpen: false
+  }
+
+  toggleCheck = (key) =>{
+    let todos = this.state.todos;
+    for(let i = 0; i < todos.length; i++){
+      if (todos[i].key === key) {
+        todos[i].completed = !todos[i].completed;
+      };
+    }
+    this.setState({
+      todos
+    })
   }
 
   updateProgress = (key, updatedProgress) =>{
     let todos = this.state.todos;
     for(let i = 0; i < todos.length; i++){
       if (todos[i].key === key) {
-        console.log(`found. updated${todos[i].soFar} to ${updatedProgress}`)
         todos[i].soFar = updatedProgress
       };
     }
@@ -62,6 +78,17 @@ export default class TodoContainer extends Component {
     console.log(todos)
   }
 
+  bubbleSubmitHandler = (newBubble) =>{
+    console.log('submitted bubble')
+    let todos = this.state.todos;
+    todos.push(newBubble);
+    this.setState({
+        todos,
+        bubbleFormOpen: false
+    });
+    console.log(todos)
+  }
+
   onDetailsPress = (key) =>{
     let selectedTodo = null;
     for(let i = 0; i < this.state.todos.length; i++){
@@ -79,6 +106,16 @@ export default class TodoContainer extends Component {
     }
     this.setState({
       selectedProgress
+    })
+  }
+
+  onBubbleDetailsPress = (key) =>{
+    let selectedBubble = null;
+    for(let i = 0; i < this.state.todos.length; i++){
+      if (this.state.todos[i].key === key) selectedBubble = this.state.todos[i];
+    }
+    this.setState({
+      selectedBubble
     })
   }
 
@@ -111,6 +148,16 @@ export default class TodoContainer extends Component {
     })
   }
 
+  onBubbleDeleteModal = (key) =>{
+    this.setState(prevState =>{
+      return{
+        selectedBubble: null,
+        todos: prevState.todos.filter((todo)=>{
+          return todo.key !== prevState.selectedBubble.key;
+        })}
+    })
+  }
+
   onModalClose =()=>{
     this.setState({
       selectedTodo: null
@@ -120,6 +167,11 @@ export default class TodoContainer extends Component {
   onProgressModalClose =()=>{
     this.setState({
       selectedProgress: null
+    })
+  }
+  onBubbleModalClose =()=>{
+    this.setState({
+      selectedBubble: null
     })
   }
 
@@ -145,16 +197,53 @@ export default class TodoContainer extends Component {
           />
         }
 
-        <Button 
-          icon="add"
-          onPress={()=>this.setState({todoFormOpen:true})}>
-          Add a Regular Todo
+        {this.state.selectedBubble &&
+          <BubbleModal
+            selectedBubble={this.state.selectedBubble}
+            onBubbleDeleteModal={this.onBubbleDeleteModal}
+            onBubbleModalClose={this.onBubbleModalClose}
+            updateProgress={this.updateProgress}
+          />
+        }
+
+        <Button
+        onPress={()=>this.setState({addModalOpen: true})}>
+          What do you need to get done?
         </Button>
-        <Button 
-          icon="show-chart"
-          onPress={()=>this.setState({progressFormOpen:true})}>
-          Add a Progress Bar
-        </Button>
+        {this.state.addModalOpen &&
+          <Modal 
+          animationType="fade" 
+          presentationStyle="formSheet"
+          transparent="true">
+          <View style={styles.addModal}>
+            <Button 
+              icon="add"
+              onPress={()=>this.setState({todoFormOpen:true, addModalOpen: false})}>
+              Add a Regular Todo
+            </Button>
+            <Button 
+              icon="show-chart"
+              onPress={()=>this.setState({progressFormOpen:true, addModalOpen: false})}>
+              Add a Progress Bar
+            </Button>
+            <Button 
+              icon="radio-button-checked"
+              onPress={()=>this.setState({bubbleFormOpen:true, addModalOpen: false})}>
+              Add a Bubble Bar
+            </Button>
+            <Button
+              style={styles.button}
+              mode='text'
+              onPress={(()=>this.setState({addModalOpen: false}))}
+              color='#dfd8e9'
+            >Nevermind</Button>
+          </View>
+            
+          </Modal>
+        }
+
+
+        
 
       {this.state.todos.length === 0 &&
         <Text style={styles.welcome}>Nothing to do yet!</Text>
@@ -174,11 +263,19 @@ export default class TodoContainer extends Component {
         />
       }
 
+      {this.state.bubbleFormOpen &&
+        <AddBubbleForm
+          bubbleSubmitHandler={this.bubbleSubmitHandler}
+          closeBubbleForm = {()=>this.setState({bubbleFormOpen:false})}
+        />
+      }
+
         
         <Todos
         todos={this.state.todos}
         onDetailsPress={this.onDetailsPress}
         onProgressDetailsPress={this.onProgressDetailsPress}
+        onBubbleDetailsPress={this.onBubbleDetailsPress}
         onDeletePress={this.onDeletePress}
         />
 
@@ -199,4 +296,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  addModal:{
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF'
+  }
 });

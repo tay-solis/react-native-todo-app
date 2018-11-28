@@ -21,6 +21,7 @@ class AddTodoForm extends Component {
       key: dateSubmitted,
       name,
       type: 'checkbox',
+      completed: false,
       dateSubmitted
     }
     this.setState({

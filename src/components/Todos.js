@@ -4,6 +4,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 
 import Todo from './Todo'
+import Bubble from './Bubble'
 import TodoDelete from './TodoDelete'
 import TodoReadMore from './TodoReadMore'
 import Progress from './Progress'
@@ -20,28 +21,45 @@ class Todos extends Component{
             return (<Todo
             name={todo.item.name}
             key={todo.item.key}
-            dateSubmitted={todo.item.dateSubmitted}/>)}
+            dateSubmitted={todo.item.dateSubmitted}
+            toggleCheck = {this.props.toggleCheck}
+            completed={todo.item.completed}/>)}
           if (todo.item.type == 'progress') {
             return (<Progress
             name={todo.item.name}
             key={todo.item.key}
             soFar={todo.item.soFar}
             completed={todo.item.completed}
+            dateSubmitted={todo.item.dateSubmitted}/>)}
+          if (todo.item.type == 'bubble') {
+            return (<Bubble
+            name={todo.item.name}
+            key={todo.item.key}
+            soFar={todo.item.soFar}
+            completed={todo.item.completed}
             dateSubmitted={todo.item.dateSubmitted}/>)}}
-        }
+          }
+          
         renderHiddenItem={ (todo) => {
           let details = null;
           if(todo.item.type == 'checkbox') {
             details = <TodoReadMore
             onDetailsPress={this.props.onDetailsPress}
             todoKey={todo.item.dateSubmitted} />
-          } 
+          }
           if (todo.item.type == 'progress'){
             details = 
             <TodoReadMore
             onDetailsPress={this.props.onProgressDetailsPress}
             todoKey={todo.item.dateSubmitted} />
           }
+          if (todo.item.type == 'bubble'){
+            details = 
+            <TodoReadMore
+            onDetailsPress={this.props.onBubbleDetailsPress}
+            todoKey={todo.item.dateSubmitted} />
+          }
+          
           return(
                 <View style={styles.rowBack}>
                   <TodoDelete

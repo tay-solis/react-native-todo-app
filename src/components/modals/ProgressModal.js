@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Modal, View, Text, StyleSheet} from 'react-native'
-import {ProgressBar, TextInput, Button} from 'react-native-paper';
+import {ProgressBar, TextInput, Button, Snackbar} from 'react-native-paper';
 
 
 
@@ -12,18 +12,22 @@ class ProgressModal extends Component {
 		dateSubmitted:0,
 		added:0,
 		soFar:0,
-		completed:0
+		completed:0,
+		errorMessageVisible: false
 	}
 
 	updateProgress =()=>{
 		let soFar = this.state.soFar;
-		soFar += parseInt(this.state.added, 10);
-		if(soFar > this.state.completed) return;
-		console.log(`updating ${this.state.soFar} to ${soFar}`) 
-		this.setState({
-			soFar
-		})
-		return this.props.updateProgress(this.state.dateSubmitted, soFar)
+		let updatedAmount = soFar + parseInt(this.state.added, 10);
+		if(updatedAmount  > this.state.completed) {
+			alert('We know you kick ass, but you can\'t go over 100%!')
+		} else {
+			this.setState({
+				soFar: updatedAmount
+			})
+			return this.props.updateProgress(this.state.dateSubmitted, updatedAmount)
+		}
+		
 	}
 
 	timeAgo =(past) =>{
@@ -80,7 +84,7 @@ class ProgressModal extends Component {
             <TextInput 
                 mode='outlined'
                 style={styles.inputs}
-                label="Add to Progress"
+                label="How much did you do?"
                 keyboardType='numeric'
                 onChangeText = {this.progressAmountChangedHandler}
                 />
@@ -104,7 +108,6 @@ class ProgressModal extends Component {
             	onPress={this.props.onProgressModalClose}>
 						Close</Button>
           </View>
-
         </View>
 
 
@@ -141,7 +144,11 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-between'
-  },
+	},
+	snackbar:{
+		position: 'absolute',
+		top: 30
+	}
 })
 
 export default ProgressModal

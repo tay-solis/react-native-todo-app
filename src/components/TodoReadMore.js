@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 class TodoReadMore extends Component{
-  onDetailsPress =()=>{
+  onDetailsPress = () =>{
       return this.props.onDetailsPress(this.props.todoKey)
   }
   render(){

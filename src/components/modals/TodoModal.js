@@ -5,18 +5,35 @@ const TodoModal = (props) => (
     <Modal animationType="slide">
         <View
           style={styles.container}>
-            <Text style={styles.title}>{props.selectedTodo.name}</Text>
+          <View style={styles.todo}>
+                <Button
+                onPress={this.toggleCheck}
+                >
+                    {!this.state.completed &&
+                        <MaterialIcons name="check-box-outline-blank" size={24} color='#333' />
+                    }
+                    {this.state.completed && 
+                        <MaterialCommunityIcons name="checkbox-marked-outline" size={24} color='#333' />
+
+                    }
+                    
+                </Button>
+                <Text style={styles.title}>
+                    {this.props.name}
+                </Text>
+            </View>
+          
           <Text>Created  {timeAgo(props.selectedTodo.dateSubmitted)}</Text>
           <View style={styles.buttons}>
             <Button
               title="Delete"
               color='#be95ff'
-              onPress={props.onProgressDeleteModal}
+              onPress={props.onDeleteModal}
               />
             <Button
               title="Close"
               color= '#be95ff'
-            onPress={props.onProgressModalClose}/>
+            onPress={props.onModalClose}/>
           </View>
 
         </View>
@@ -32,6 +49,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30
   },
+  todo:{
+		width: '100%',
+		padding: 10,
+        backgroundColor: '#eee',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingRight: 20
+    },
   title: {
     fontSize: 20,
     textAlign: 'center',
