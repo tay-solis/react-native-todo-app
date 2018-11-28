@@ -5,18 +5,18 @@ const TodoModal = (props) => (
     <Modal animationType="slide">
         <View
           style={styles.container}>
-            <Text style={styles.title}>{props.selectedTodo.value}</Text>
+            <Text style={styles.title}>{props.selectedTodo.name}</Text>
           <Text>Created  {timeAgo(props.selectedTodo.dateSubmitted)}</Text>
           <View style={styles.buttons}>
             <Button
               title="Delete"
               color='#be95ff'
-              onPress={props.onDeleteModal}
+              onPress={props.onProgressDeleteModal}
               />
             <Button
               title="Close"
               color= '#be95ff'
-            onPress={props.onModalClose}/>
+            onPress={props.onProgressModalClose}/>
           </View>
 
         </View>

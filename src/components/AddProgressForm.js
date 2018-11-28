@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
         width: '70%',
         alignItems: 'center',
         justifyContent: 'space-between'
-    }
+    },
+    
 })
 
 export default AddProgressForm

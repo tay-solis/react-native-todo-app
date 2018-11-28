@@ -12,6 +12,7 @@ import { Button, } from 'react-native-paper';
 
 import Todos from './Todos'
 import TodoModal from './modals/TodoModal'
+import ProgressModal from './modals/ProgressModal'
 import AddTodoForm from './AddTodoForm'
 import AddProgressForm from './AddProgressForm'
 
@@ -19,10 +20,25 @@ export default class TodoContainer extends Component {
 
   state = {
     todos: [],
-    progresses: [],
     selectedTodo: null,
+    selectedProgress: null,
     todoFormOpen: false,
     progressFormOpen: false,
+  }
+
+  updateProgress = (key, updatedProgress) =>{
+    let todos = this.state.todos;
+    for(let i = 0; i < todos.length; i++){
+      if (todos[i].key === key) {
+        console.log(`found. updated${todos[i].soFar} to ${updatedProgress}`)
+        todos[i].soFar = updatedProgress
+      };
+    }
+    console.log(todos)
+    this.setState({
+      selectedProgress: null,
+      todos
+    })
   }
 
 
@@ -35,14 +51,15 @@ export default class TodoContainer extends Component {
     });
 
   }
+
   progressSubmitHandler = (newProgress) =>{
-    let progresses = this.state.progresses;
-    progresses.push(newProgress);
+    let todos = this.state.todos;
+    todos.push(newProgress);
     this.setState({
-        progresses,
+        todos,
         progressFormOpen: false
     });
-    console.log(progresses)
+    console.log(todos)
   }
 
   onDetailsPress = (key) =>{
@@ -55,6 +72,15 @@ export default class TodoContainer extends Component {
     })
   }
 
+  onProgressDetailsPress = (key) =>{
+    let selectedProgress = null;
+    for(let i = 0; i < this.state.todos.length; i++){
+      if (this.state.todos[i].key === key) selectedProgress = this.state.todos[i];
+    }
+    this.setState({
+      selectedProgress
+    })
+  }
 
   onDeletePress = (key) =>{
     this.setState(prevState =>{
@@ -75,9 +101,25 @@ export default class TodoContainer extends Component {
     })
   }
 
+  onProgressDeleteModal = (key) =>{
+    this.setState(prevState =>{
+      return{
+        selectedProgress: null,
+        todos: prevState.todos.filter((todo)=>{
+          return todo.key !== prevState.selectedProgress.key;
+        })}
+    })
+  }
+
   onModalClose =()=>{
     this.setState({
       selectedTodo: null
+    })
+  }
+
+  onProgressModalClose =()=>{
+    this.setState({
+      selectedProgress: null
     })
   }
 
@@ -91,6 +133,15 @@ export default class TodoContainer extends Component {
             selectedTodo={this.state.selectedTodo}
             onDeleteModal={this.onDeleteModal}
             onModalClose={this.onModalClose}
+          />
+        }
+
+        {this.state.selectedProgress &&
+          <ProgressModal
+            selectedProgress={this.state.selectedProgress}
+            onProgressDeleteModal={this.onProgressDeleteModal}
+            onProgressModalClose={this.onProgressModalClose}
+            updateProgress={this.updateProgress}
           />
         }
 
@@ -127,6 +178,7 @@ export default class TodoContainer extends Component {
         <Todos
         todos={this.state.todos}
         onDetailsPress={this.onDetailsPress}
+        onProgressDetailsPress={this.onProgressDetailsPress}
         onDeletePress={this.onDeletePress}
         />
 
