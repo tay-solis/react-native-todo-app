@@ -7,59 +7,42 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, Button, FlatList, Image} from 'react-native';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
+import { Button, } from 'react-native-paper';
 
-import Todo from './Todo'
 import Todos from './Todos'
 import TodoModal from './modals/TodoModal'
-
-class LogoTitle extends React.Component {
-  render() {
-    return (
-      <Image
-      style={
-        {width: 51,
-        height: 51}
-      }
-      source={require('../assets/artificial-intelligence.png')}
-      />
-    );
-  }
-}
+import AddTodoForm from './AddTodoForm'
+import AddProgressForm from './AddProgressForm'
 
 export default class TodoContainer extends Component {
-  static navigationOptions = {
-    headerTitle: <LogoTitle />,
-  };;
 
   state = {
-    todoName: '',
     todos: [],
-    selectedTodo: null
-  }
-
-  todoNameChangedHandler = (val) =>{
-    this.setState({
-      todoName: val,
-    });
+    progresses: [],
+    selectedTodo: null,
+    todoFormOpen: false,
+    progressFormOpen: false,
   }
 
 
-  todoSubmitHandler = () =>{
-    let dateSubmitted = Date.now();
-    if(this.state.todoName.trim() === '') return;
-    let newTodo = {
-      key: dateSubmitted,
-      value: this.state.todoName,
-      dateSubmitted
-    }
+  todoSubmitHandler = (newTodo) =>{
     let todos = this.state.todos;
     todos.push(newTodo);
     this.setState({
         todos,
-        todoName: ''
+        todoFormOpen: false
     });
 
+  }
+  progressSubmitHandler = (newProgress) =>{
+    let progresses = this.state.progresses;
+    progresses.push(newProgress);
+    this.setState({
+        progresses,
+        progressFormOpen: false
+    });
+    console.log(progresses)
   }
 
   onDetailsPress = (key) =>{
@@ -110,33 +93,43 @@ export default class TodoContainer extends Component {
             onModalClose={this.onModalClose}
           />
         }
-        {/* <Button
-          title="My Profile"
-          color='#be95ff'
-          onPress={() => this.props.navigation.navigate('Profile')}
-        /> */}
 
-        <Text style={styles.welcome}>What do you need to get done?</Text>
-        <View style={styles.inputsContainer}>
-        <TextInput
-          style={styles.inputs}
-          value={this.state.todoName}
-          onChangeText = {this.todoNameChangedHandler}
-          onSubmitEditing = {this.todoSubmitHandler}
-          placeholder = "Make a to-do list"
+        <Button 
+          icon="add"
+          onPress={()=>this.setState({todoFormOpen:true})}>
+          Add a Regular Todo
+        </Button>
+        <Button 
+          icon="show-chart"
+          onPress={()=>this.setState({progressFormOpen:true})}>
+          Add a Progress Bar
+        </Button>
+
+      {this.state.todos.length === 0 &&
+        <Text style={styles.welcome}>Nothing to do yet!</Text>
+      }
+
+      {this.state.progressFormOpen &&
+        <AddProgressForm 
+          closeProgressForm={()=>this.setState({progressFormOpen:false})}
+          progressSubmitHandler={this.progressSubmitHandler}
         />
-        <Button
-          title="Add"
-          style={styles.button}
-          onPress={this.todoSubmitHandler}
-          color='#be95ff'
+      }
+
+      {this.state.todoFormOpen &&
+        <AddTodoForm
+          todoSubmitHandler={this.todoSubmitHandler}
+          closeTodoForm = {()=>this.setState({todoFormOpen:false})}
         />
-        </View>
+      }
+
+        
         <Todos
         todos={this.state.todos}
         onDetailsPress={this.onDetailsPress}
         onDeletePress={this.onDeletePress}
         />
+
       </View>
     );
   }
@@ -144,30 +137,14 @@ export default class TodoContainer extends Component {
 
 const styles = StyleSheet.create({
   container:{
-      flex:1,
+    flex:1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#FFF',
     paddingTop: 30
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  inputsContainer:{
-    // flex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-
-  },
-  inputs:{
-    width: '70%',
-    height: 40,
-    borderColor: '#AAA',
-    borderWidth: 1,
-    padding: 10,
   },
 });

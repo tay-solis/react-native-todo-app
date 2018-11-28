@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {StyleSheet,  FlatList, View, Text} from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 import Todo from './Todo'
@@ -16,13 +15,13 @@ class Todos extends Component{
         style={styles.todos}
         data={this.props.todos}
         renderItem={ (todo) => <Todo
-          todoName={todo.item.value}
+          name={todo.item.name}
           key={todo.item.key}
           dateSubmitted={todo.item.dateSubmitted}/>
         }
         renderHiddenItem={ (todo) => (
                 <View style={styles.rowBack}>
-                  <TodoDelete 
+                  <TodoDelete
                     onDeletePress={this.props.onDeletePress}
                     todoKey={todo.item.dateSubmitted} />
                   <TodoReadMore
@@ -40,7 +39,7 @@ class Todos extends Component{
 const styles = StyleSheet.create({
   todos: {
     width: '100%',
-    marginTop: 5
+    marginTop: 10
   },
   rowBack: {
     alignItems: 'center',

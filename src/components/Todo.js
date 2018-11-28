@@ -8,7 +8,7 @@ class Todo extends Component{
                 <View style={{flexDirection: 'row', alignItems:'center', width:'60%'}}>
 
                     <Text style={styles.todoText}>
-                        {this.props.todoName}
+                        {this.props.name}
                     </Text>
                 </View>
 
