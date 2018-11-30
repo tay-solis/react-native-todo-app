@@ -19,8 +19,18 @@ import AddProgressForm from '../forms/AddProgressForm'
 import AddBubbleForm from '../forms/AddBubbleForm'
 
 export default class TodoContainer extends Component {
-
-  state = {
+    /*
+      Todo Object Properties include:
+      key: NEEDS UNIQUE KEY GENERATOR
+      name: String
+      type: 'checkbox' || 'progress' || 'bubble
+      completed: Boolean
+      dateSubmitted: Date object, in ms
+      datesContributed: [Array of Date objects, in ms]
+      dateCompleted: Date object, in ms
+    */ 
+   
+    state = {
     todos: [],
     selectedTodo: null,
     selectedProgress: null,

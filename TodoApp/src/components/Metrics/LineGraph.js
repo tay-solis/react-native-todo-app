@@ -9,7 +9,7 @@ class LineGraph extends React.Component {
             theme={VictoryTheme.material}
         >
             <VictoryArea
-                style={{ data: { fill: "#c43a31" } }}
+                style={{ data: { fill: "#F7E012" } }}
                 animate={{
                     duration: 2000,
                     onLoad: { duration: 1000 }
