@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingLeft: 30
+		paddingLeft: 30, 
+		height: 75
+		
   },
   todoText:{
     fontSize: 20,

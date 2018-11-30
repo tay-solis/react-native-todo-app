@@ -68,8 +68,8 @@ class Todos extends Component{
                   {details}
                 </View>
             )}}
-            leftOpenValue={40}
-            rightOpenValue={-40}
+            leftOpenValue={50}
+            rightOpenValue={-50}
       />
     );
   }
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DDD',
     flex: 1,
-    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

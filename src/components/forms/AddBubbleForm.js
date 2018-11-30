@@ -72,8 +72,8 @@ class AddBubbleForm extends Component {
                 </View>
                   
                   <Button
-                      mode='text'
-                      color='#be95ff'
+                      mode='contained'
+                      color='#F7E012'
                       onPress={this.bubbleSubmitHandler}
                       >Add</Button>
               </View>
@@ -81,7 +81,7 @@ class AddBubbleForm extends Component {
               <Button
                   onPress={this.props.closeBubbleForm}
                   mode='text'
-                  color='#dfd8e9'
+                  color='#bdbdbd'
               >Nevermind</Button>
               </View>
           </Modal>

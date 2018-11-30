@@ -1,7 +1,34 @@
-import React from 'react'
-import { Modal, View, Text, StyleSheet, Button } from 'react-native'
+import React, {Component} from 'react';
+import { Modal, View, Text, StyleSheet } from 'react-native';
+import {Button} from 'react-native-paper'
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-const TodoModal = (props) => (
+class TodoModal extends Component {
+  state ={
+    name:'',
+    completed:false,
+    dateSubmitted:0
+}
+
+componentDidMount(){
+    this.setState({
+        name: this.props.selectedTodo.name,
+        completed:this.props.selectedTodo.completed,
+        dateSubmitted:this.props.selectedTodo.dateSubmitted
+    })
+}
+
+toggleCheck =()=>{
+    let completed = this.state.completed;
+    completed = !completed;
+    this.setState({
+        completed
+    })
+    return this.props.toggleCheck(this.state.dateSubmitted)
+}
+
+  render(){
+    return(
     <Modal animationType="slide">
         <View
           style={styles.container}>
@@ -19,32 +46,31 @@ const TodoModal = (props) => (
                     
                 </Button>
                 <Text style={styles.title}>
-                    {this.props.name}
+                    {this.state.name}
                 </Text>
             </View>
           
-          <Text>Created  {timeAgo(props.selectedTodo.dateSubmitted)}</Text>
+          <Text>Created  {timeAgo(this.state.dateSubmitted)}</Text>
           <View style={styles.buttons}>
             <Button
-              title="Delete"
-              color='#be95ff'
-              onPress={props.onDeleteModal}
-              />
+              color='#F7E012'
+              onPress={this.props.onDeleteModal}>Delete</Button>
             <Button
-              title="Close"
               color= '#be95ff'
-            onPress={props.onModalClose}/>
+            onPress={this.props.onModalClose}>Close</Button>
           </View>
 
         </View>
 
 
     </Modal>
-)
+  );
+  } 
+}
 
 const styles = StyleSheet.create({
   container:{
-      flex:1,
+    flex:1,
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 30
@@ -52,11 +78,8 @@ const styles = StyleSheet.create({
   todo:{
 		width: '100%',
 		padding: 10,
-        backgroundColor: '#eee',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingRight: 20
+    flexDirection: 'row',
+    alignItems: 'center',
     },
   title: {
     fontSize: 20,

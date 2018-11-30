@@ -7,10 +7,10 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 class Todo extends Component{
     state ={
         name:'',
-        completed:false,
+        completed:false, 
         dateSubmitted:0
     }
-    
+
     componentDidMount(){
         this.setState({
             name: this.props.name,
@@ -25,6 +25,7 @@ class Todo extends Component{
         this.setState({
             completed
         })
+        this.props.toggleCheck(this.state.dateSubmitted)
     }
 
     render(){
@@ -60,7 +61,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingRight: 20
+        paddingRight: 20, 
+        height:75
     },
     details:{
         marginRight: 20

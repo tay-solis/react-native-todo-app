@@ -16,8 +16,11 @@ class Progress extends Component{
         console.log(percent)
         return(
             <View style={styles.todo}>
-                <Text style={styles.todoText}>{this.props.name}</Text>
+            <View style={styles.todoTitle}>
+                <Text style={styles.todoText}>{this.props.completed} {this.props.name}</Text>
                 <Text>Progress so far: {`${Math.floor(percent * 100)}%`}</Text>
+            </View>
+                
                 <ProgressBar style={{width: '100%', backgroundColor: '#FFF'}}progress={percent} color='#000'/>
             </View>
         )
@@ -32,11 +35,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingRight: 20
+        paddingRight: 30,
+        paddingLeft: 30, 
+    },
+    todoTitle:{
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     todoText:{
       fontSize: 20,
-
+      marginRight: 20
     }
 })
 export default Progress

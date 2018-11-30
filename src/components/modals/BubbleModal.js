@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import { Modal, View, Text, StyleSheet} from 'react-native'
 import {Button} from 'react-native-paper';
 
-import BubbleBar from '../BubbleBar'
+import BubbleBar from '../todo-components/BubbleBar'
 
 
 
@@ -87,14 +87,14 @@ class BubbleModal extends Component {
           <Text>Created  {this.timeAgo(this.state.dateSubmitted)}</Text>
           <Text>Bubble so far: {this.state.soFar} / {this.state.completed}</Text>
           <Button
-            mode='text'
-            color='#be95ff'
+            mode='contained'
+            color='#F7E012'
             onPress={this.updateProgress}
             >+1</Button>
           
 					<View style={styles.buttons}>
             <Button
-              color='#be95ff'
+              color='#F7E012'
               onPress={this.props.onBubbleDeleteModal}
               >
 						Delete</Button>

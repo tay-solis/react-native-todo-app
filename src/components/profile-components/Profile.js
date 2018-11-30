@@ -9,10 +9,10 @@ class Profile extends Component{
     return(
       <View style={styles.profile}>
         <View style={styles.user}>
-          <Image
-            source={require('../assets/artificial-intelligence.png')}
+          {/* <Image
+            source={require('../../assets/artificial-intelligence.png')}
             style={styles.profileImage}
-            />
+            /> */}
           <Text style={styles.userGreeting}>Hello!</Text>
         </View>
         <View style={styles.profileInfo}>

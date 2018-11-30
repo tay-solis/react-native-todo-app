@@ -58,8 +58,8 @@ class AddProgressForm extends Component {
                       onChangeText = {this.progressAmountChangedHandler}
                       />
                   <Button
-                      mode='text'
-                      color='#be95ff'
+                      mode='contained'
+                      color='#F7E012'
                       onPress={this.progressSubmitHandler}
                       >Add</Button>
               </View>
@@ -67,7 +67,7 @@ class AddProgressForm extends Component {
               <Button
                   onPress={this.props.closeProgressForm}
                   mode='text'
-                  color='#dfd8e9'
+                  color='#bdbdbd'
               >Nevermind</Button>
               </View>
           </Modal>

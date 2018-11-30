@@ -11,12 +11,12 @@ import {StyleSheet, Text, View, Modal} from 'react-native';
 import {Button} from 'react-native-paper';
 
 import Todos from './Todos'
-import TodoModal from './modals/TodoModal'
-import ProgressModal from './modals/ProgressModal'
-import BubbleModal from './modals/BubbleModal'
-import AddTodoForm from './AddTodoForm'
-import AddProgressForm from './AddProgressForm'
-import AddBubbleForm from './AddBubbleForm'
+import TodoModal from '../modals/TodoModal'
+import ProgressModal from '../modals/ProgressModal'
+import BubbleModal from '../modals/BubbleModal'
+import AddTodoForm from '../forms/AddTodoForm'
+import AddProgressForm from '../forms/AddProgressForm'
+import AddBubbleForm from '../forms/AddBubbleForm'
 
 export default class TodoContainer extends Component {
 
@@ -35,10 +35,13 @@ export default class TodoContainer extends Component {
     let todos = this.state.todos;
     for(let i = 0; i < todos.length; i++){
       if (todos[i].key === key) {
-        todos[i].completed = !todos[i].completed;
+        let completed = todos[i].completed;
+        todos[i].completed = !completed;
       };
     }
+    console.log(todos)
     this.setState({
+      selectedTodo: null,
       todos
     })
   }
@@ -183,6 +186,7 @@ export default class TodoContainer extends Component {
         {this.state.selectedTodo &&
           <TodoModal
             selectedTodo={this.state.selectedTodo}
+            toggleCheck={this.toggleCheck}
             onDeleteModal={this.onDeleteModal}
             onModalClose={this.onModalClose}
           />
@@ -207,6 +211,8 @@ export default class TodoContainer extends Component {
         }
 
         <Button
+        mode="contained"
+        icon="add"
         onPress={()=>this.setState({addModalOpen: true})}>
           What do you need to get done?
         </Button>
@@ -216,17 +222,24 @@ export default class TodoContainer extends Component {
           presentationStyle="formSheet"
           transparent="true">
           <View style={styles.addModal}>
-            <Button 
-              icon="add"
+            <Button
+              style={styles.formBtn} 
+              style={styles.formBtn}
+              mode="contained"
+              icon="check"
               onPress={()=>this.setState({todoFormOpen:true, addModalOpen: false})}>
               Add a Regular Todo
             </Button>
-            <Button 
+            <Button
+              style={styles.formBtn}
+              mode="contained" 
               icon="show-chart"
               onPress={()=>this.setState({progressFormOpen:true, addModalOpen: false})}>
               Add a Progress Bar
             </Button>
-            <Button 
+            <Button
+              style={styles.formBtn}
+              mode="contained" 
               icon="radio-button-checked"
               onPress={()=>this.setState({bubbleFormOpen:true, addModalOpen: false})}>
               Add a Bubble Bar
@@ -234,8 +247,9 @@ export default class TodoContainer extends Component {
             <Button
               style={styles.button}
               mode='text'
+              color='#bdbdbd'
               onPress={(()=>this.setState({addModalOpen: false}))}
-              color='#dfd8e9'
+  
             >Nevermind</Button>
           </View>
             
@@ -273,6 +287,7 @@ export default class TodoContainer extends Component {
         
         <Todos
         todos={this.state.todos}
+        toggleCheck={this.toggleCheck}
         onDetailsPress={this.onDetailsPress}
         onProgressDetailsPress={this.onProgressDetailsPress}
         onBubbleDetailsPress={this.onBubbleDetailsPress}
@@ -301,5 +316,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFF'
+  },
+  formBtn:{
+    margin: 10, 
+    width: '100%'
   }
 });

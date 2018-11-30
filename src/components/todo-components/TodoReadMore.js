@@ -11,6 +11,7 @@ class TodoReadMore extends Component{
     return(
       <TouchableOpacity
           onPress={this.onDetailsPress}
+          style={styles.touchable}
       >
         <MaterialIcons name="more-horiz" size={20} color='#333' />
       </TouchableOpacity>
@@ -20,10 +21,11 @@ class TodoReadMore extends Component{
 }
 
 const styles = StyleSheet.create({
-  readMore: {
-    color: '#be95ff',
-    fontSize: 16
-  }
+    touchable:{
+      height: 50, 
+      width: 50,
+      justifyContent: 'center',
+      alignItems: 'center'}
 })
 
 export default TodoReadMore

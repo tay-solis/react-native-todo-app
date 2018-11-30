@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import {createAppContainer} from 'react-navigation';
-import {BottomNavigation, Text} from 'react-native-paper';
+import {BottomNavigation} from 'react-native-paper';
 
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { withTheme } from 'react-native-paper';
-
-import TodoContainer from './src/components/TodoContainer'
-import Profile from './src/components/Profile'
+import TodoContainer from './src/components/todo-components/TodoContainer'
+import Profile from './src/components/profile-components/Profile'
+import MetricsContainer from './src/components/Metrics/MetricsContainer'
 
 
 
@@ -18,7 +15,13 @@ export default class AppContainer extends Component {
         key: 'dashboard',
         title: 'Dashboard',
         icon: 'view-day',
-      }, {
+      }, 
+      {
+        key: 'metrics',
+        title: 'Metrics',
+        icon: 'insert-chart'
+      },
+      {
         key: 'profile',
         title: 'Profile',
         icon: 'account-circle',
@@ -30,6 +33,7 @@ export default class AppContainer extends Component {
 
   _renderScene = BottomNavigation.SceneMap({
     dashboard: TodoContainer,
+    metrics: MetricsContainer,
     profile: Profile});
 
   render() {

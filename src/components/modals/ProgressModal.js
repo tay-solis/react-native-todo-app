@@ -89,8 +89,8 @@ class ProgressModal extends Component {
                 onChangeText = {this.progressAmountChangedHandler}
                 />
             <Button
-                mode='text'
-                color='#be95ff'
+                mode='contained'
+                color='#F7E012'
                 onPress={this.updateProgress}
                 >Add</Button>
           </View>
@@ -98,7 +98,7 @@ class ProgressModal extends Component {
           
 					<View style={styles.buttons}>
             <Button
-              color='#be95ff'
+              color='#F7E012'
               onPress={this.props.onProgressDeleteModal}
               >
 						Delete</Button>
