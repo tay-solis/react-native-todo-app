@@ -3,6 +3,14 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
     username: {
       type: String,
       required: true,
@@ -17,7 +25,7 @@ const UserSchema = new Schema({
     },
     tasks:[{
       type: Schema.Types.ObjectId,
-      ref: 'Posts'
+      ref: 'Tasks'
     }],
     profile:{
       type: Schema.Types.ObjectId,

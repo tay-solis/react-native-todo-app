@@ -30,7 +30,11 @@ class AddProgressForm extends Component {
       completed,
       soFar: 0,
       type: 'progress',
-      dateSubmitted
+      dateSubmitted,
+      updates: [{
+        soFar: 0,
+        dateUpdated: dateSubmitted
+      }]
     }
     this.setState({
       progressName: '',

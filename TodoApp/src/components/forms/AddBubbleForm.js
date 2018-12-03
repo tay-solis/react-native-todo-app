@@ -37,7 +37,11 @@ class AddBubbleForm extends Component {
       completed,
       soFar: 0,
       type: 'bubble',
-      dateSubmitted
+      dateSubmitted,
+      updates: [{
+        soFar: 0,
+        dateUpdated: dateSubmitted
+      }]
     }
     this.setState({
       bubbleName: '',

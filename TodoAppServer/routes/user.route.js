@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const db = require('../models')
 
+router.post('/signup',  function(req, res) {
+   console.log(req.body)
 
-
-router.post('/signup',function(req, res) {
-   
    //Check if user exists with that username
    User.findOne({username: req.body.username}, (err, existingUser)=>{
       if (err) throw err;
@@ -17,11 +21,8 @@ router.post('/signup',function(req, res) {
                   firstName: req.body.firstName,
                   lastName: req.body.lastName,
                   username: req.body.username,
-                  city: req.body.city,
-                  joinDate: req.body.joinDate,
-                  email: req.body.email  
+                  email: req.body.email 
                });
-
                
                bcrypt.genSalt(10, (err, salt) => {
                   bcrypt.hash(req.body.password, salt, (err, hash) => {
@@ -62,6 +63,8 @@ router.post('/signup',function(req, res) {
 
 /////// LOG IN ///////
 router.post('/login', function(req, res){
+   console.log(`logging in`)
+   console.log(req.body)
 
    User.findOne({username: req.body.username}, (err, user)=>{
       if(err) throw err;
@@ -69,7 +72,22 @@ router.post('/login', function(req, res){
          bcrypt.compare(req.body.password, user.password, (err, result)=>{
             if (err) throw err;
             if(result) {
-               
+               const JWTToken = jwt.sign({
+                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    profilePic: user.profilePic,
+                    username: user.username,
+                    _id: user._id
+                  },
+                  'secret',
+                   {
+                     expiresIn: '2h'
+                   });
+                   return res.status(200).json({
+                     success: 'Welcome back!',
+                     token: JWTToken
+                   });
               }
             return res.status(401).json({
                failed: 'Credentials not valid'
@@ -83,12 +101,16 @@ router.post('/login', function(req, res){
    });
 });
 
-
 /////// RETRIEVE USER INFO ///////
 router.get('/:username', (req,res)=>{
    db.User.findOne({username: req.params.username}, (err, user)=>{
       if (err) throw err;
-      res.json(user)  
+      res.json({
+         username: user.username,
+         _id: user._id,
+         firstName: user.firstName,
+         lastName: user.lastName,
+      })  
    })
 });
 

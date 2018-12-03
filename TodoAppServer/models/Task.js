@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ProfileSchema = new Schema({
+const TaskSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
       type: String,
@@ -11,17 +11,15 @@ const ProfileSchema = new Schema({
       type: String,
       required: true,
     },
-    completed: {
-      type: Boolean,
-      required: true,
-    },
+    soFar: Number, 
+    completed: Number,
     dateSubmitted: {
       type: Date,
       required: true,
     },
-    datesContributed: [{
-      type: String,
-      required: true,
+    updates: [{
+      dateUpdated: Date,
+      soFar: Number
     }],
     dateCompleted: {
         type: Date,
@@ -33,6 +31,6 @@ const ProfileSchema = new Schema({
     }
   });
 
-const Profile = mongoose.model('Profile', ProfileSchema);
+const Task = mongoose.model('Task', TaskSchema);
 
-module.exports = Profile;
+module.exports = Task;

@@ -22,7 +22,11 @@ class AddTodoForm extends Component {
       name,
       type: 'checkbox',
       completed: false,
-      dateSubmitted
+      dateSubmitted,
+      updates: [{
+        soFar: 0,
+        dateUpdated: dateSubmitted
+      }]
     }
     this.setState({
       todoName: ''
