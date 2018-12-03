@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {StyleSheet, View, Text, Image} from 'react-native'
+import {Button} from 'react-native-paper'
 
 class Profile extends Component{
   static navigationOptions = {
@@ -17,6 +18,14 @@ class Profile extends Component{
         </View>
         <View style={styles.profileInfo}>
           <Text>Hello again!</Text>
+        </View>
+        <View style={styles.settings}>
+            <Button
+            mode='text'
+            onPress={this.props.deleteJWT}
+            color='#bdbdbd'>
+            Log Out
+            </Button>
         </View>
       </View>
     )
@@ -42,7 +51,10 @@ const styles = StyleSheet.create({
     height: 75
   },
   profileInfo:{
-    flex: 3
+    flex: 2
+  },
+  settings:{
+    flex:1
   }
 
 })

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {View} from 'react-native'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import AppContainer from './AppContainer';
+import Auth from './src/components/accounts-components/Auth'
+import deviceStorage from './src/services/deviceStorage'
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -12,10 +15,39 @@ const defaultTheme = {
   }
 };
 
-export default function Main() {
-  return (
+export default class Main extends Component {
+  constructor() {
+    super();
+    this.state = {
+      jwt: '',
+      loading: true
+    }
+    
+    this.newJWT = this.newJWT.bind(this);
+    this.deleteJWT = deviceStorage.deleteJWT.bind(this);
+    this.loadJWT = deviceStorage.loadJWT.bind(this);
+    this.loadJWT();
+  }
+
+  newJWT(jwt){
+    this.setState({
+      jwt: jwt
+    });
+  } 
+  
+  render(){
+    return (
     <PaperProvider theme={defaultTheme}>
-      <AppContainer />
+      {this.state.jwt === '' &&
+      <View style={{flex:1}}>
+      <Auth newJWT={this.newJWT}/>
+      </View>
+        
+      }    
+      {this.state.jwt !== '' &&
+        <AppContainer deleteJWT={this.deleteJWT}/>
+      }
     </PaperProvider>
   );
+}
 }

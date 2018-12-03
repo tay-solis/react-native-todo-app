@@ -29,10 +29,21 @@ router.post('/signup',  function(req, res) {
                     if(err) throw err;
                     user.password = hash;
                     user.save().then(function(result) {
-                      console.log(result);
-                      res.status(200).json({
-                         success: 'New user has been created'
-                      });
+                     const JWTToken = jwt.sign({
+                        username: user.username,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        _id: user._id
+                      },
+                      'secret',
+                       {
+                         expiresIn: '2h'
+                       });
+                       console.log(`sending ${JWTToken}`)
+                       return res.status(200).json({
+                         success: 'Welcome back!',
+                         jwt: JWTToken
+                       });
                    }).catch(err=> {
                       res.status(500).json({
                          error: err
@@ -76,8 +87,6 @@ router.post('/login', function(req, res){
                     username: user.username,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    profilePic: user.profilePic,
-                    username: user.username,
                     _id: user._id
                   },
                   'secret',
@@ -86,7 +95,7 @@ router.post('/login', function(req, res){
                    });
                    return res.status(200).json({
                      success: 'Welcome back!',
-                     token: JWTToken
+                     jwt: JWTToken
                    });
               }
             return res.status(401).json({

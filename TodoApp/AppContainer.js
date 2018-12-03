@@ -31,21 +31,36 @@ export default class AppContainer extends Component {
         key: 'profile',
         title: 'Profile',
         icon: 'account-circle',
-      }
+      },
+      
     ]
   };
 
   _handleIndexChange = index => this.setState({index});
 
-  _renderScene = BottomNavigation.SceneMap({
-    dashboard: TodoContainer,
-    upcoming: UpcomingContainer,
-    metrics: MetricsContainer,
-    profile: Profile});
+  // _renderScene = BottomNavigation.SceneMap({
+  //   dashboard: TodoContainer,
+  //   upcoming: UpcomingContainer,
+  //   metrics: MetricsContainer,
+  //   profile: Profile});
+
+  _renderScene = ({route}) => {
+    switch (route.key) {
+      case 'dashboard':
+        return <TodoContainer/>;
+      case 'upcoming':
+        return <UpcomingContainer/>;
+      case 'metrics':
+        return <MetricsContainer/>;
+      case 'profile':
+        return <Profile deleteJWT={this.props.deleteJWT}/>;
+    }
+  }
 
   render() {
     return (<BottomNavigation
       navigationState={this.state}
-      onIndexChange={this._handleIndexChange} renderScene={this._renderScene}/>);
+      onIndexChange={this._handleIndexChange} 
+      renderScene={this._renderScene}/>);
   }
 }
