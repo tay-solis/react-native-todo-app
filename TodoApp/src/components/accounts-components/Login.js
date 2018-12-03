@@ -11,6 +11,7 @@ import React, {
     Button,
   } from 'react-native-paper';
   import deviceStorage from '../../services/deviceStorage'; 
+  import axios from 'axios'
   
   class Login extends Component {
     state = {
@@ -18,12 +19,12 @@ import React, {
       password: ''
     }
 
-    usernameChangeHandler(val) {
+    usernameChangedHandler = (val) => {
       this.setState({
         username: val
       });
     }
-    passwordChangeHandler(val) {
+    passwordChangedHandler = (val) =>{
       this.setState({
         password: val
       });
@@ -34,18 +35,22 @@ import React, {
           username: this.state.username,
           password: this.state.password,
         }
-        fetch('http://10.1.5.48:4000/user/login', {
+        axios({
           method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: user,
+          url: 'http://10.1.5.48:4000/user/login',
+          data: user,
+          config:{
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          }
         })
-        .then((response) => {
-          deviceStorage.saveKey("id_token", response.jwt);
-          deviceStorage.saveKey("currentUser", response.user);
-          this.props.newJWT(response.jwt, response.user);
+        .then((res) => {
+          let user = res.data.user;
+          deviceStorage.saveKey("id_token", res.data.jwt);
+          deviceStorage.saveKey("currentUser", JSON.stringify(user));
+          this.props.newJWT(res.jwt, user);
         })
         .catch((error) => {
           console.error(error);
@@ -64,6 +69,7 @@ import React, {
               label="Username"
             />
             <TextInput
+              secureTextEntry={true}
               mode='outlined'
               style={styles.inputs}
               value={this.state.password}
@@ -75,7 +81,7 @@ import React, {
             style={styles.button}
               mode='contained'
               onPress={this.submitHandler}
-              color='#F7E012'>Log In</Button>
+              color='#F6D258'>Log In</Button>
             <Button
             style={styles.button}
               mode='text'

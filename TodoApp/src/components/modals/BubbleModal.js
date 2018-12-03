@@ -88,13 +88,13 @@ class BubbleModal extends Component {
           <Text>Bubble so far: {this.state.soFar} / {this.state.completed}</Text>
           <Button
             mode='contained'
-            color='#F7E012'
+            color='#F6D258'
             onPress={this.updateProgress}
             >+1</Button>
           
 					<View style={styles.buttons}>
             <Button
-              color='#F7E012'
+              color='#F6D258'
               onPress={this.props.onBubbleDeleteModal}
               >
 						Delete</Button>

@@ -53,7 +53,7 @@ toggleCheck =()=>{
           <Text>Created  {timeAgo(this.state.dateSubmitted)}</Text>
           <View style={styles.buttons}>
             <Button
-              color='#F7E012'
+              color='#F6D258'
               onPress={this.props.onDeleteModal}>Delete</Button>
             <Button
               color= '#be95ff'

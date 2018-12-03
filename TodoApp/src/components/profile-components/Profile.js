@@ -7,19 +7,19 @@ class Profile extends Component{
     title: 'Profile',
   };
   render(){
-    alert(JSON.stringify(this.props.currentUser.username))
     return(
       <View style={styles.profile}>
-        <View style={styles.user}>
-          {/* <Image
-            source={require('../../assets/artificial-intelligence.png')}
-            style={styles.profileImage}
-            /> */}
-          <Text style={styles.userGreeting}>{this.props.currentUser.username}</Text>
-        </View>
+      {this.props.currentUser !== null &&
+      <View style={styles.user}>
+
+        <Text style={styles.userGreeting}>{this.props.currentUser.username}</Text>
         <View style={styles.profileInfo}>
-          <Text>Hello again!</Text>
+        <Text>Hello again!</Text>
         </View>
+       </View>
+    
+    }
+        
         <View style={styles.settings}>
             <Button
             mode='text'
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     height: 75
   },
   profileInfo:{
-    flex: 2
   },
   settings:{
     flex:1

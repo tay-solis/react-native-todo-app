@@ -52,7 +52,7 @@ class AddTodoForm extends Component {
           style={styles.button}
             mode='contained'
             onPress={this.todoSubmitHandler}
-            color='#F7E012'>Add</Button>
+            color='#F6D258'>Add</Button>
           </View>
           <Button
           style={styles.button}

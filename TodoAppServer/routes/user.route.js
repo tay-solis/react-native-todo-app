@@ -33,6 +33,8 @@ router.post('/signup',  function(req, res) {
                         username: user.username,
                         firstName: user.firstName,
                         lastName: user.lastName,
+                        tasks: [],
+                        profile: {},
                         _id: user._id
                       },
                       'secret',
@@ -122,17 +124,14 @@ router.post('/login', function(req, res){
    });
 });
 
-/////// RETRIEVE USER INFO ///////
+/////// RETRIEVE USER INFO, INCLUDING TASKS ///////
 router.get('/:username', (req,res)=>{
-   db.User.findOne({username: req.params.username}, (err, user)=>{
-      if (err) throw err;
-      res.json({
-         username: user.username,
-         _id: user._id,
-         firstName: user.firstName,
-         lastName: user.lastName,
-      })  
-   })
+   db.User.find({username: req.params.username})
+   .populate({path: 'tasks', model: db.Task})
+   .exec((err, users)=>{
+      if(err) throw err;
+      res.json(users[0])
+  })
 });
 
 

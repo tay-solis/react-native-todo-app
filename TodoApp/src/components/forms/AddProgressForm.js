@@ -63,7 +63,7 @@ class AddProgressForm extends Component {
                       />
                   <Button
                       mode='contained'
-                      color='#F7E012'
+                      color='#F6D258'
                       onPress={this.progressSubmitHandler}
                       >Add</Button>
               </View>

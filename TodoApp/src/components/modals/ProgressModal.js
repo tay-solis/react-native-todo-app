@@ -90,7 +90,7 @@ class ProgressModal extends Component {
                 />
             <Button
                 mode='contained'
-                color='#F7E012'
+                color='#F6D258'
                 onPress={this.updateProgress}
                 >Add</Button>
           </View>
@@ -98,7 +98,7 @@ class ProgressModal extends Component {
           
 					<View style={styles.buttons}>
             <Button
-              color='#F7E012'
+              color='#F6D258'
               onPress={this.props.onProgressDeleteModal}
               >
 						Delete</Button>

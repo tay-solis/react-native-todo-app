@@ -24,7 +24,6 @@ class Auth extends Component{
           
         }
       }>
-      <Text>Get in the Grind</Text>
         {this.state.showLogin &&
           <Login newJWT={this.props.newJWT} toggleLogin={this.toggleLogin}/>
         }

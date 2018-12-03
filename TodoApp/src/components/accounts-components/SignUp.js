@@ -135,7 +135,7 @@ class SignUp extends Component {
       .then(res => {
         let user = res.data.user;
         deviceStorage.saveKey("id_token", res.data.jwt);
-        deviceStorage.saveKey("currentUser", user);
+        deviceStorage.saveKey("currentUser", JSON.stringify(user));
         this.props.newJWT(res.jwt, user);
       })
       .catch((error) => {
@@ -179,6 +179,7 @@ class SignUp extends Component {
             />
             <TextInput
               mode='outlined'
+              secureTextEntry={true}
               style={styles.inputs}
               value={this.state.password1}
               onChangeText = {this.password1ChangedHandler}
@@ -186,6 +187,7 @@ class SignUp extends Component {
             />
             <TextInput
               mode='outlined'
+              secureTextEntry={true}
               style={styles.inputs}
               value={this.state.password2}
               onChangeText = {this.password2ChangedHandler}
@@ -196,7 +198,7 @@ class SignUp extends Component {
             style={styles.button}
               mode='contained'
               onPress={this.submitHandler}
-              color='#F7E012'>Log In</Button>
+              color='#F6D258'>Log In</Button>
             <Button
             style={styles.button}
               mode='text'

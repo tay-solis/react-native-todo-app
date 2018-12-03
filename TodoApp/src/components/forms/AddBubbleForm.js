@@ -77,7 +77,7 @@ class AddBubbleForm extends Component {
                   
                   <Button
                       mode='contained'
-                      color='#F7E012'
+                      color='#F6D258'
                       onPress={this.bubbleSubmitHandler}
                       >Add</Button>
               </View>
