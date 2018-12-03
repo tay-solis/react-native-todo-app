@@ -20,6 +20,7 @@ export default class Main extends Component {
     super();
     this.state = {
       jwt: '',
+      currentUser: {},
       loading: true
     }
     
@@ -29,10 +30,12 @@ export default class Main extends Component {
     this.loadJWT();
   }
 
-  newJWT(jwt){
+  newJWT(jwt, user){
+    alert(JSON.stringify(user))
     this.setState({
-      jwt: jwt
-    });
+      jwt: jwt,
+      currentUser: user
+    })
   } 
   
   render(){
@@ -45,7 +48,7 @@ export default class Main extends Component {
         
       }    
       {this.state.jwt !== '' &&
-        <AppContainer deleteJWT={this.deleteJWT}/>
+        <AppContainer currentUser={this.state.currentUser} deleteJWT={this.deleteJWT}/>
       }
     </PaperProvider>
   );

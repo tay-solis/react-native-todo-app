@@ -13,18 +13,16 @@ const TaskSchema = new Schema({
     },
     soFar: Number, 
     completed: Number,
-    dateSubmitted: {
-      type: Date,
+    isCompleted: {
+      type: Boolean,
       required: true,
     },
+    dateSubmitted: Date,
     updates: [{
       dateUpdated: Date,
       soFar: Number
     }],
-    dateCompleted: {
-        type: Date,
-        required: true,
-      },
+    dateCompleted:  Date,
     user:{
       type: Schema.Types.ObjectId,
       ref: 'User'

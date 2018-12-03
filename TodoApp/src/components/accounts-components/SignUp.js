@@ -12,6 +12,8 @@ import {
   Button,
 } from 'react-native-paper';
 import deviceStorage from '../../services/deviceStorage'; 
+import axios from 'axios'
+
 
 class SignUp extends Component {
   state = {
@@ -119,17 +121,22 @@ class SignUp extends Component {
         username: this.state.username,
         password: this.state.password1,
       }
-      fetch('http://10.1.5.48:4000/user/signup', {
+      axios({
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
+        url: 'http://10.1.5.48:4000/user/signup',
+        data: newUser,
+        config:{
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
       })
-      .then((response) => {
-        deviceStorage.saveKey("id_token", response.jwt);
-        this.props.newJWT(response.jwt);
+      .then(res => {
+        let user = res.data.user;
+        deviceStorage.saveKey("id_token", res.data.jwt);
+        deviceStorage.saveKey("currentUser", user);
+        this.props.newJWT(res.jwt, user);
       })
       .catch((error) => {
         console.error(error);

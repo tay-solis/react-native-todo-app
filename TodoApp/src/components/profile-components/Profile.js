@@ -7,6 +7,7 @@ class Profile extends Component{
     title: 'Profile',
   };
   render(){
+    alert(JSON.stringify(this.props.currentUser.username))
     return(
       <View style={styles.profile}>
         <View style={styles.user}>
@@ -14,7 +15,7 @@ class Profile extends Component{
             source={require('../../assets/artificial-intelligence.png')}
             style={styles.profileImage}
             /> */}
-          <Text style={styles.userGreeting}>Hello!</Text>
+          <Text style={styles.userGreeting}>{this.props.currentUser.username}</Text>
         </View>
         <View style={styles.profileInfo}>
           <Text>Hello again!</Text>

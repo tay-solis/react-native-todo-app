@@ -53,7 +53,7 @@ export default class AppContainer extends Component {
       case 'metrics':
         return <MetricsContainer/>;
       case 'profile':
-        return <Profile deleteJWT={this.props.deleteJWT}/>;
+        return <Profile currentUser={this.props.currentUser} deleteJWT={this.props.deleteJWT}/>;
     }
   }
 

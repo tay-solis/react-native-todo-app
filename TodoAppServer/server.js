@@ -30,6 +30,10 @@ app.use(express.static('public'));
 const user = require('./routes/user.route');
 app.use('/user', user);
 
+// Task Routes
+const task = require('./routes/task.route');
+app.use('/task', task);
+
 app.get('/', (req, res) => {
     res.send('hey')
 });

@@ -11,9 +11,11 @@ const deviceStorage = {
     async loadJWT() {
         try {
           const value = await AsyncStorage.getItem('id_token');
+          const user = await AsyncStorage.getItem('currentUser');
           if (value !== null) {
             this.setState({
               jwt: value,
+              currentUser: user,
               loading: false
             });
           } else {
@@ -31,7 +33,8 @@ const deviceStorage = {
           .then(
             () => {
               this.setState({
-                jwt: ''
+                jwt: '',
+                currentUser: {}
               })
             }
           );

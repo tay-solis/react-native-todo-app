@@ -42,7 +42,13 @@ router.post('/signup',  function(req, res) {
                        console.log(`sending ${JWTToken}`)
                        return res.status(200).json({
                          success: 'Welcome back!',
-                         jwt: JWTToken
+                         jwt: JWTToken,
+                         user: {
+                            username: user.username,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            _id: user._id
+                         }
                        });
                    }).catch(err=> {
                       res.status(500).json({
@@ -94,8 +100,14 @@ router.post('/login', function(req, res){
                      expiresIn: '2h'
                    });
                    return res.status(200).json({
-                     success: 'Welcome back!',
-                     jwt: JWTToken
+                     success: `Welcome back, ${user.firstName}!`,
+                     jwt: JWTToken,
+                     user: {
+                        username: user.username,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        _id: user._id
+                     }
                    });
               }
             return res.status(401).json({

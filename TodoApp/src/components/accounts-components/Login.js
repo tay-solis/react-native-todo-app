@@ -43,8 +43,9 @@ import React, {
           body: user,
         })
         .then((response) => {
-          deviceStorage.saveKey("id_token", response.data.jwt);
-          this.props.newJWT(response.data.jwt);
+          deviceStorage.saveKey("id_token", response.jwt);
+          deviceStorage.saveKey("currentUser", response.user);
+          this.props.newJWT(response.jwt, response.user);
         })
         .catch((error) => {
           console.error(error);
