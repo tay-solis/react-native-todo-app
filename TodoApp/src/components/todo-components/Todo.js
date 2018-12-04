@@ -7,23 +7,23 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 class Todo extends Component{
     state ={
         name:'',
-        completed:false, 
+        isCompleted  :false, 
         dateSubmitted:0
     }
 
     componentDidMount(){
         this.setState({
             name: this.props.name,
-            completed:this.props.completed,
+            isCompleted  :this.props.isCompleted  ,
             dateSubmitted:this.props.dateSubmitted
         })
     }
 
     toggleCheck =()=>{
-        let completed = this.state.completed;
-        completed = !completed;
+        let isCompleted   = this.state.isCompleted  ;
+        isCompleted   = !isCompleted  ;
         this.setState({
-            completed
+            isCompleted  
         })
         this.props.toggleCheck(this.state.dateSubmitted)
     }
@@ -34,10 +34,10 @@ class Todo extends Component{
                 <Button
                 onPress={this.toggleCheck}
                 >
-                    {!this.state.completed &&
+                    {!this.state.isCompleted   &&
                         <MaterialIcons name="check-box-outline-blank" size={24} color='#333' />
                     }
-                    {this.state.completed && 
+                    {this.state.isCompleted   && 
                         <MaterialCommunityIcons name="checkbox-marked-outline" size={24} color='#333' />
 
                     }

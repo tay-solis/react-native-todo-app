@@ -21,7 +21,9 @@ class AddTodoForm extends Component {
       key: dateSubmitted,
       name,
       type: 'checkbox',
-      completed: false,
+      soFar: 0,
+      completed: 1,
+      isCompleted: false,
       dateSubmitted,
       updates: [{
         soFar: 0,

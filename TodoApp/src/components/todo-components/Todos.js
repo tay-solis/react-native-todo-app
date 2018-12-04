@@ -20,21 +20,21 @@ class Todos extends Component{
           if(todo.item.type == 'checkbox') {
             return (<Todo
             name={todo.item.name}
-            key={todo.item.key}
+            key={todo.item._id}
             dateSubmitted={todo.item.dateSubmitted}
             toggleCheck = {this.props.toggleCheck}
             completed={todo.item.completed}/>)}
           if (todo.item.type == 'progress') {
             return (<Progress
             name={todo.item.name}
-            key={todo.item.key}
+            key={todo.item._id}
             soFar={todo.item.soFar}
             completed={todo.item.completed}
             dateSubmitted={todo.item.dateSubmitted}/>)}
           if (todo.item.type == 'bubble') {
             return (<Bubble
             name={todo.item.name}
-            key={todo.item.key}
+            key={todo.item._id}
             soFar={todo.item.soFar}
             completed={todo.item.completed}
             dateSubmitted={todo.item.dateSubmitted}/>)}}
@@ -45,26 +45,26 @@ class Todos extends Component{
           if(todo.item.type == 'checkbox') {
             details = <TodoReadMore
             onDetailsPress={this.props.onDetailsPress}
-            todoKey={todo.item.dateSubmitted} />
+            todoKey={todo.item._id} />
           }
           if (todo.item.type == 'progress'){
             details = 
             <TodoReadMore
             onDetailsPress={this.props.onProgressDetailsPress}
-            todoKey={todo.item.dateSubmitted} />
+            todoKey={todo.item._id} />
           }
           if (todo.item.type == 'bubble'){
             details = 
             <TodoReadMore
             onDetailsPress={this.props.onBubbleDetailsPress}
-            todoKey={todo.item.dateSubmitted} />
+            todoKey={todo.item._id} />
           }
           
           return(
                 <View style={styles.rowBack}>
                   <TodoDelete
                     onDeletePress={this.props.onDeletePress}
-                    todoKey={todo.item.dateSubmitted} />
+                    todoKey={todo.item._id} />
                   {details}
                 </View>
             )}}

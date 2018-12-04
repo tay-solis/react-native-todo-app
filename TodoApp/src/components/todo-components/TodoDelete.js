@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 class TodoDelete extends Component{
+ 
   onDeletePress = () =>{
       return this.props.onDeletePress(this.props.todoKey)
   }

@@ -5,38 +5,35 @@ const db = require('../models')
 
 /////// CREATE A TASK ///////
 router.post('/create', (req, res) => {
-  console.log(`Creating task:`);
-  console.log(req.body)
   let taskData = {
     _id: new mongoose.Types.ObjectId(),
-    name: req.body.name,
-    type: req.body.type,
-    soFar: req.body.soFar,
-    completed: req.body.completed,
-    dateSubmitted: req.body.dateSubmitted,
-    updates: req.body.updates,
+    name: req.body.task.name,
+    type: req.body.task.type,
+    soFar: req.body.task.soFar,
+    completed: req.body.task.completed,
+    dateSubmitted: req.body.task.dateSubmitted,
+    updates: req.body.task.updates,
     isCompleted: false,
   }
 
   db.Task.create(taskData, (err, savedTask) => {
+    console.log(req.body)
     if (err) throw err;
-    db.User.findOne({
-      username: req.body.user
-    }, (err, savedUser) => {
-      if (err) throw err;
-      savedUser.tasks.push(savedTask);
-      savedUser.save((err, savedUser) => {
+      db.User.findOne({
+          username: req.body.user
+      }, (err, savedUser) => {
         if (err) throw err;
-        console.log(savedUser)
-      });
-      savedTask.user = savedUser;
-      savedTask.save((err, savedTask) => {
-        if (err) throw err;
-        console.log(`Saved ${savedTask}`)
-      });
-      res.json(savedTask)
-    })
-  })
+        console.log(`found ${req.body.user}`)
+          savedUser.tasks.push(savedTask);
+          savedUser.save((err)=>{
+              if(err) throw err;
+          });
+          savedTask.user = savedUser;
+          savedTask.save((err) => {
+              if (err) throw err});
+          res.json(savedTask);
+      });   
+  });
 });
 
 
@@ -85,17 +82,19 @@ router.put('/update/:id', (req, res) => {
   });
 });
 
-//DESTROY A POST
-router.delete('/delete/:id', (req, res) => {
+/////// DESTROY A TASK - RETURNS NEW ARRAY OF TODOS
+router.delete('/delete/:username/:id', (req, res) => {
   let taskId = req.params.id;
   console.log(`Deleting ${taskId}...`);
   db.Task.deleteOne({
     _id: taskId
   }, (err, deletedTask) => {
     if (err) throw err;
-    res.status(200).json({
-      "Deleted Task": deletedTask
-    })
+    db.Task.find({user: req.params.username}, (err, tasks)=>{
+      if(err) return res.status(500);
+      res.status(200).json(tasks)
+    });
+    
   })
 
 })
@@ -103,6 +102,7 @@ router.delete('/delete/:id', (req, res) => {
 /////// RETRIEVE ALL TASKS BY A USER ///////
 
 router.get('/by/:username', (req, res)=>{
+  console.log(`retrieving tasks by ${req.params.username}`)
   db.User.findOne({username: req.params.username}, (err, user)=>{
     if(err) return res.status(500).json({error: 'Internal server error'});
     if(user === null) return res.status(404).json({error: 'User not found'})

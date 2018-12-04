@@ -47,7 +47,7 @@ export default class AppContainer extends Component {
   _renderScene = ({route}) => {
     switch (route.key) {
       case 'dashboard':
-        return <TodoContainer/>;
+        return <TodoContainer currentUser={this.props.currentUser}/>;
       case 'upcoming':
         return <UpcomingContainer/>;
       case 'metrics':
