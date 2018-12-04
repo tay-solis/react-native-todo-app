@@ -25,7 +25,7 @@ class ProgressModal extends Component {
 			this.setState({
 				soFar: updatedAmount
 			})
-			return this.props.updateProgress(this.state.dateSubmitted, updatedAmount)
+			return this.props.updateProgress(this.props.selectedProgress._id, updatedAmount)
 		}
 		
 	}

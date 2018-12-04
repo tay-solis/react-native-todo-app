@@ -24,7 +24,7 @@ toggleCheck =()=>{
     this.setState({
         completed
     })
-    return this.props.toggleCheck(this.state.dateSubmitted)
+    return this.props.toggleCheck(this.props.selectedTodo._id)
 }
 
   render(){

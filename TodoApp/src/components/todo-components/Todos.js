@@ -20,6 +20,7 @@ class Todos extends Component{
           if(todo.item.type == 'checkbox') {
             return (<Todo
             name={todo.item.name}
+            id={todo.item._id}
             key={todo.item._id}
             dateSubmitted={todo.item.dateSubmitted}
             toggleCheck = {this.props.toggleCheck}
@@ -27,6 +28,7 @@ class Todos extends Component{
           if (todo.item.type == 'progress') {
             return (<Progress
             name={todo.item.name}
+            id={todo.item._id}
             key={todo.item._id}
             soFar={todo.item.soFar}
             completed={todo.item.completed}
@@ -34,6 +36,7 @@ class Todos extends Component{
           if (todo.item.type == 'bubble') {
             return (<Bubble
             name={todo.item.name}
+            id={todo.item._id}
             key={todo.item._id}
             soFar={todo.item.soFar}
             completed={todo.item.completed}

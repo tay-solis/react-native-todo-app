@@ -44,34 +44,48 @@ export default class TodoContainer extends Component {
   addModalOpen: false
   }
 
-  toggleCheck = (key) =>{
-  let todos = this.state.todos;
-  for(let i = 0; i < todos.length; i++){
-    if (todos[i].key === key) {
-    let completed = todos[i].completed;
-    todos[i].completed = !completed;
-    };
-  }
-  this.setState({
-    selectedTodo: null,
-    todos
-  })
-  }
-
   updateProgress = (key, updatedProgress) =>{
-  let todos = this.state.todos;
-  for(let i = 0; i < todos.length; i++){
-    if (todos[i].key === key) {
-    todos[i].soFar = updatedProgress
+    let todo = null;
+    let todoIndex = null;
+    let todos = this.state.todos;
+    for(let i = 0; i < todos.length; i++){
+      if (todos[i]._id === key) {
+        todo = todos[i]
+        todoIndex = i;
+        todo.soFar = updatedProgress;
     };
-  }
-  this.setState({
-    selectedProgress: null,
-    todos
-  })
-  }
+    }
+    if(todo === null) return;
+    console.log('updating');
+    console.log(todo)
+    axios({
+      method: 'PUT',
+      url: `${rootUrl}/task/update/${key}`,
+      data: {
+        id: todo._id,
+        soFar: todo.soFar,
+        dateUpdated: Date.now()
+      }
+    })
+    .then((res)=>{
+      todos[todoIndex] = res.data;
+      this.setState({
+        todos,
+        todosList: <Todos
+          todos={todos}
+          toggleCheck={this.toggleCheck}
+          onDetailsPress={this.onDetailsPress}
+          onProgressDetailsPress={this.onProgressDetailsPress}
+          onBubbleDetailsPress={this.onBubbleDetailsPress}
+          onDeletePress={this.onDeletePress}
+          />,
+          selectedProgress: null,
+        progressFormOpen: false,
+        bubbleFormOpen: false
+      });
+    });
 
-
+  }
   todoSubmitHandler = (newTodo) =>{
     axios({
       method: 'POST',
@@ -102,25 +116,24 @@ export default class TodoContainer extends Component {
   }
 
   onDetailsPress = (key) =>{
-  let selectedTodo = null;
-  for(let i = 0; i < this.state.todos.length; i++){
-    if (this.state.todos[i]._id === key) selectedTodo = this.state.todos[i];
-  }
-  alert(JSON.stringify(selectedTodo));
-  this.setState({
-    selectedTodo
-  })
+    let selectedTodo = null;
+    for(let i = 0; i < this.state.todos.length; i++){
+      if (this.state.todos[i]._id === key) selectedTodo = this.state.todos[i];
+    }
+    alert(JSON.stringify(selectedTodo));
+    this.setState({
+      selectedTodo
+    })
   }
 
   onProgressDetailsPress = (key) =>{
-  let selectedProgress = null;
-  for(let i = 0; i < this.state.todos.length; i++){
-    if (this.state.todos[i]._id === key) selectedProgress = this.state.todos[i];
-  }
-  alert(JSON.stringify(selectedProgress));
-  this.setState({
-    selectedProgress
-  })
+    let selectedProgress = null;
+    for(let i = 0; i < this.state.todos.length; i++){
+      if (this.state.todos[i]._id === key) selectedProgress = this.state.todos[i];
+    }
+    this.setState({
+      selectedProgress
+    })
   }
 
   onBubbleDetailsPress = (key) =>{
@@ -234,7 +247,7 @@ export default class TodoContainer extends Component {
     {this.state.selectedTodo &&
       <TodoModal
       selectedTodo={this.state.selectedTodo}
-      toggleCheck={this.toggleCheck}
+      toggleCheck={this.updateProgress}
       onDeleteModal={this.onDeleteModal}
       onModalClose={this.onModalClose}
       />

@@ -19,7 +19,7 @@ class BubbleModal extends Component {
 
 	updateProgress =()=>{
     let soFar = this.state.soFar;
-    if(soFar == this.state. completed) return;
+    if(soFar == this.state.completed) return;
     let bubbles = this.state.bubbles;
     bubbles[soFar] = 'fill';
 
@@ -29,7 +29,7 @@ class BubbleModal extends Component {
       bubbles
     });
     
-		return this.props.updateProgress(this.state.dateSubmitted, updatedAmount)
+		return this.props.updateProgress(this.props.selectedBubble._id, updatedAmount)
 	}		
 
 

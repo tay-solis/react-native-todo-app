@@ -45,7 +45,8 @@ router.put('/update/:id', (req, res) => {
     soFar: req.body.soFar,
     dateUpdated: req.body.dateUpdated
   };
-
+  console.log('updating')
+  console.log(update)
 
   db.Task.findOne({
     _id: taskId
@@ -70,6 +71,7 @@ router.put('/update/:id', (req, res) => {
         updatedTask.soFar = update.soFar;
         if (updatedTask.soFar === updatedTask.completed) {
           updatedTask.dateCompleted = update.dateUpdated;
+          updatedTask.isCompleted = true;
         }
         updatedTask.save()
           .then(() => {

@@ -7,7 +7,7 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 class Todo extends Component{
     state ={
         name:'',
-        isCompleted  :false, 
+        isCompleted: false, 
         dateSubmitted:0
     }
 
@@ -25,7 +25,7 @@ class Todo extends Component{
         this.setState({
             isCompleted  
         })
-        this.props.toggleCheck(this.state.dateSubmitted)
+        this.props.toggleCheck(this.props._id)
     }
 
     render(){
