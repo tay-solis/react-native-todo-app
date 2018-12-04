@@ -2,16 +2,18 @@ import React, {
   Component
 } from 'react'
 import {
-  ScrollView,
   View,
   StyleSheet,
-  Text
+  ScrollView
 } from 'react-native'
 import {
   TextInput,
   Button,
+  HelperText,
 } from 'react-native-paper';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import deviceStorage from '../../services/deviceStorage'; 
+
 import axios from 'axios'
 
 
@@ -22,7 +24,10 @@ class SignUp extends Component {
     email: '',
     username: '',
     password1: '',
-    password2: ''
+    password2: '',
+    hasBeenEdited: false,
+    errorMessage: '',
+    errorMessageShow: false
   }
 
 
@@ -63,10 +68,9 @@ class SignUp extends Component {
     return alphanumericRegex.test(str)
   }
 
-  //Validates name. Allows some foreign characters.
-  isValidName= (str) =>{
-    const cityRegex = new RegExp("^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$");
-    return cityRegex.test(str);
+  isOnlyLetters= (str) =>{
+    const alphanumericRegex = new RegExp("^[a-zA-Z]*$");
+    return alphanumericRegex.test(str)
   }
 
   isValidPassword= (str) =>{
@@ -82,37 +86,34 @@ class SignUp extends Component {
   submitHandler = () => {
     
     let mistakes = false;
-    // if (!this.isValidPassword(this.state.password1)) {
-    //   mistakes = true;
-    // }
+    this.setState({hasBeenEdited: true})
+    if (!this.isValidPassword(this.state.password1)) {
+      mistakes = true;
+    }
 
-    // if (!this.isValidName(this.state.firstName)) {
-    //   mistakes = true;
-    // }
+    if (!this.isOnlyLetters(this.state.firstName)) {
+      mistakes = true;
+    }
 
-    // if (!this.isValidName(this.state.lastName)) {
-    //   mistakes = true;
-    // }
+    if (!this.isOnlyLetters(this.state.lastName)) {
+      mistakes = true;
+    }
 
-    // if (!this.isOnlyLettersOrNumbers(this.state.username)) {
-    //   mistakes = true;
+    if (!this.isOnlyLettersOrNumbers(this.state.username)) {
+      mistakes = true;
 
-    // }
+    }
 
-    // if (!this.isValidEmail(this.state.email)) {
-    //   mistakes = true;
+    if (!this.isValidEmail(this.state.email)) {
+      mistakes = true;
 
-    // }
+    }
 
-    // if (!this.isValidName(this.state.city)) {
-    //   mistakes = true;
+    if (this.state.password1 !== this.state.password2) {
+      mistakes = true;
 
-    // }
+    }
 
-    // if (this.state.password1 !== this.state.password2) {
-    //   mistakes = true;
-
-    // }
     if (!mistakes) {
       let newUser = {
         firstName: this.state.firstName,
@@ -138,17 +139,19 @@ class SignUp extends Component {
         deviceStorage.saveKey("currentUser", JSON.stringify(user));
         this.props.newJWT(res.jwt, user);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(error => {
+        alert(error);
       });
     }
   }
 
   render() {
     return (
+      <KeyboardAwareScrollView style={styles.signupContainer} behavior="position" enabled>
       <ScrollView>
+        
+      </ScrollView>
         <View style={styles.signupContainer}>
-            <Text>Get to Work</Text>
             <TextInput
               mode='outlined'
               style={styles.inputs}
@@ -156,6 +159,13 @@ class SignUp extends Component {
               onChangeText = {this.firstNameChangedHandler}
               label="First Name"
             />
+            <HelperText
+              type="error"
+              visible={!this.isOnlyLetters(this.state.firstName) && this.state.hasBeenEdited}
+            >
+            Name can only have letters (a-z, A-Z).
+            </HelperText>
+
             <TextInput
               mode='outlined'
               style={styles.inputs}
@@ -163,6 +173,13 @@ class SignUp extends Component {
               onChangeText = {this.lastNameChangedHandler}
               label="Last Name"
             />
+            <HelperText
+              type="error"
+              visible={!this.isOnlyLetters(this.state.lastName) && this.state.hasBeenEdited}
+            >
+            Name can only have letters (a-z, A-Z).
+            </HelperText>
+
             <TextInput
               mode='outlined'
               style={styles.inputs}
@@ -170,6 +187,13 @@ class SignUp extends Component {
               onChangeText = {this.emailChangedHandler}
               label="Email"
             />
+            <HelperText
+              type="error"
+              visible={!this.isValidEmail(this.state.email) && this.state.hasBeenEdited}
+            >
+            Invalid email.
+            </HelperText>
+
             <TextInput
               mode='outlined'
               style={styles.inputs}
@@ -177,6 +201,13 @@ class SignUp extends Component {
               onChangeText = {this.usernameChangedHandler}
               label="Username"
             />
+            <HelperText
+              type="error"
+              visible={!this.isValidEmail(this.state.email) && this.state.hasBeenEdited}
+            >
+            Username can only contain letters and numbers.
+            </HelperText>
+
             <TextInput
               mode='outlined'
               secureTextEntry={true}
@@ -193,12 +224,24 @@ class SignUp extends Component {
               onChangeText = {this.password2ChangedHandler}
               label="Re-enter Password"
             />
+            <HelperText
+              type="error"
+              visible={!this.isValidPassword(this.state.password1) && this.state.hasBeenEdited}
+            >
+            Password must contain: uppercase and lowercase letter, special character(!@#$%^&*), and number.
+            </HelperText>
+            <HelperText
+              type="error"
+              visible={this.state.password1 !== this.state.password2}
+            >
+            Passwords do not match.
+            </HelperText>
 
             <Button
             style={styles.button}
               mode='contained'
               onPress={this.submitHandler}
-              color='#F6D258'>Log In</Button>
+              color='#F6D258'>Sign Up</Button>
             <Button
             style={styles.button}
               mode='text'
@@ -206,7 +249,8 @@ class SignUp extends Component {
               color='#bdbdbd'
             >Have an account? Log in!</Button>
           </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
+        
           
     );
   }
@@ -214,16 +258,16 @@ class SignUp extends Component {
 
 const styles = StyleSheet.create({
   signupContainer:{
-    padding: 30,
+    padding: 20,
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%'
   },
   inputs:{
     height: 60,
-    width: '90%',
+    width:300,
   },
   button: {
-    margin: 10,
   }
 })
 

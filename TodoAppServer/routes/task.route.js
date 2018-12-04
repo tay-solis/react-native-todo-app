@@ -85,8 +85,6 @@ router.put('/update/:id', (req, res) => {
   });
 });
 
-/////// RETRIEVE ALL TASKS BY A USER -- USE /user/:username ///////
-
 //DESTROY A POST
 router.delete('/delete/:id', (req, res) => {
   let taskId = req.params.id;
@@ -100,6 +98,20 @@ router.delete('/delete/:id', (req, res) => {
     })
   })
 
+})
+
+/////// RETRIEVE ALL TASKS BY A USER ///////
+
+router.get('/by/:username', (req, res)=>{
+  db.User.findOne({username: req.params.username}, (err, user)=>{
+    if(err) return res.status(500).json({error: 'Internal server error'});
+    if(user === null) return res.status(404).json({error: 'User not found'})
+    db.Task.find({user: user}, (err, tasks)=>{
+      if(err) return res.status(500).json({error: 'Internal server error'});
+      if(tasks === null) return res.status(404).json({error: 'Tasks not found'})
+      res.status(200).json(tasks);
+    })
+  })
 })
 
 ////// RETRIEVE INDIVIDUAL TASK INFO //////

@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import {View} from 'react-native'
 import { Appbar, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import AppContainer from './AppContainer';
-import Auth from './src/components/accounts-components/Auth'
+import Home from './src/components/Home'
 import deviceStorage from './src/services/deviceStorage'
 
 const defaultTheme = {
   ...DefaultTheme,
+  fonts: {
+    regular: 'Open Sans',
+    medium: 'Open Sans',
+    light: 'Open Sans Light',
+    thin: 'Open Sans Thin',
+  },
   roundness: 4,
   colors: {
     ...DefaultTheme.colors,
@@ -21,9 +26,8 @@ export default class Main extends Component {
     this.state = {
       jwt: '',
       currentUser: {},
-      loading: true
+      loading: true,
     }
-    
     this.newJWT = this.newJWT.bind(this);
     this.deleteJWT = deviceStorage.deleteJWT.bind(this);
     this.loadJWT = deviceStorage.loadJWT.bind(this);
@@ -45,9 +49,7 @@ export default class Main extends Component {
       </Appbar.Header>
 
       {this.state.jwt === '' &&
-      <View style={{flex:1}}>
-      <Auth newJWT={this.newJWT}/>
-      </View>
+        <Home newJWT={this.newJWT}/>
       }
 
       {this.state.jwt !== '' &&

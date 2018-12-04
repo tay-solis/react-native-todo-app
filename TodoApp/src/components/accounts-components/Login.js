@@ -87,7 +87,7 @@ import React, {
               mode='text'
               onPress={this.props.toggleLogin}
               color='#bdbdbd'
-            >Nevermind</Button>
+            >Need an account? Sign Up</Button>
           </View>
       );
     }
@@ -101,9 +101,12 @@ import React, {
       width: '100%',
     },
     inputs:{
-      width:'70%',
+      width: 300,
       height: 60
     },
+    button: {
+      margin: 10,
+    }
   })
   
   export default Login;
