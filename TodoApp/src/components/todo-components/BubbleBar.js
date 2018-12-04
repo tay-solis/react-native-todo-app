@@ -10,7 +10,6 @@ const BubbleBar = (props) => {
         renderItem={(data)=>{
           
           if (data.item === 'fill') {
-            console.log('filled bubble')
             return(
               <View style={{margin: 20}}><Ionicons name="ios-radio-button-on" size={20} color='#333' /></View>
               

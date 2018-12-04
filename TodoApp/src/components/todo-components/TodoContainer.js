@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Modal} from 'react-native';
 import {Button} from 'react-native-paper';
@@ -26,10 +18,13 @@ export default class TodoContainer extends Component {
     Todo Object Properties include:
     key: NEEDS UNIQUE KEY GENERATOR
     name: String
-    type: 'checkbox' || 'progress' || 'bubble
-    completed: Boolean
+    type: 'checkbox' || 'progress' || 'bubble'
+    soFar: progress on goal so far, Integer
+    completed: progress needed to complete goal, Integer
+    isCompleted: Boolean
     dateSubmitted: Date object, in ms
     datesContributed: [Array of Date objects, in ms]
+    updates: [Array of Objects containing dates and "soFar" values]
     dateCompleted: Date object, in ms
   */ 
    
@@ -55,9 +50,7 @@ export default class TodoContainer extends Component {
         todo.soFar = updatedProgress;
     };
     }
-    if(todo === null) return;
-    console.log('updating');
-    console.log(todo)
+    if(todo === null) return;   
     axios({
       method: 'PUT',
       url: `${rootUrl}/task/update/${key}`,
@@ -68,12 +61,13 @@ export default class TodoContainer extends Component {
       }
     })
     .then((res)=>{
+      alert(res.data)
       todos[todoIndex] = res.data;
       this.setState({
         todos,
         todosList: <Todos
           todos={todos}
-          toggleCheck={this.toggleCheck}
+          updateProgress={this.updateProgress}
           onDetailsPress={this.onDetailsPress}
           onProgressDetailsPress={this.onProgressDetailsPress}
           onBubbleDetailsPress={this.onBubbleDetailsPress}
@@ -102,7 +96,7 @@ export default class TodoContainer extends Component {
         todos,
         todosList: <Todos
           todos={todos}
-          toggleCheck={this.toggleCheck}
+          updateProgress={this.updateProgress}
           onDetailsPress={this.onDetailsPress}
           onProgressDetailsPress={this.onProgressDetailsPress}
           onBubbleDetailsPress={this.onBubbleDetailsPress}
@@ -120,7 +114,6 @@ export default class TodoContainer extends Component {
     for(let i = 0; i < this.state.todos.length; i++){
       if (this.state.todos[i]._id === key) selectedTodo = this.state.todos[i];
     }
-    alert(JSON.stringify(selectedTodo));
     this.setState({
       selectedTodo
     })
@@ -141,25 +134,22 @@ export default class TodoContainer extends Component {
   for(let i = 0; i < this.state.todos.length; i++){
     if (this.state.todos[i]._id === key) selectedBubble = this.state.todos[i];
   }
-  alert(JSON.stringify(selectedBubble));
   this.setState({
     selectedBubble
   })
   }
 
   onDeletePress = (key) =>{
-    console.log(`${rootUrl}/task/delete/${this.props.currentUser.username}/${key}`)
     axios.delete(`${rootUrl}/task/delete/${this.props.currentUser.username}/${key}`)
     .then((res)=>{
       let todos = res.data;
-      console.log('deleted')
-      console.log(todos);
+
       todos = todos.filter(todo => todo._id !== key);
       this.setState({
       todos,
       todosList: <Todos
       todos={todos}
-      toggleCheck={this.toggleCheck}
+      updateProgress={this.updateProgress}
       onDetailsPress={this.onDetailsPress}
       onProgressDetailsPress={this.onProgressDetailsPress}
       onBubbleDetailsPress={this.onBubbleDetailsPress}
@@ -226,7 +216,7 @@ export default class TodoContainer extends Component {
       }
       let todosList = <Todos
       todos={todos}
-      toggleCheck={this.toggleCheck}
+      updateProgress={this.updateProgress}
       onDetailsPress={this.onDetailsPress}
       onProgressDetailsPress={this.onProgressDetailsPress}
       onBubbleDetailsPress={this.onBubbleDetailsPress}
@@ -247,7 +237,7 @@ export default class TodoContainer extends Component {
     {this.state.selectedTodo &&
       <TodoModal
       selectedTodo={this.state.selectedTodo}
-      toggleCheck={this.updateProgress}
+      updateProgress={this.updateProgress}
       onDeleteModal={this.onDeleteModal}
       onModalClose={this.onModalClose}
       />

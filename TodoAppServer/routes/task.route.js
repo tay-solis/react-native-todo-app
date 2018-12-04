@@ -17,13 +17,11 @@ router.post('/create', (req, res) => {
   }
 
   db.Task.create(taskData, (err, savedTask) => {
-    console.log(req.body)
     if (err) throw err;
       db.User.findOne({
           username: req.body.user
       }, (err, savedUser) => {
         if (err) throw err;
-        console.log(`found ${req.body.user}`)
           savedUser.tasks.push(savedTask);
           savedUser.save((err)=>{
               if(err) throw err;
@@ -45,28 +43,25 @@ router.put('/update/:id', (req, res) => {
     soFar: req.body.soFar,
     dateUpdated: req.body.dateUpdated
   };
-  console.log('updating')
-  console.log(update)
-
   db.Task.findOne({
     _id: taskId
   }, (err, updatedTask) => {
     if (err) return console.log(`Could not update ${taskId}: ${err}`);
-    console.log(`updating task`)
-    console.log(updatedTask)
+
     if (updatedTask === null) {
+      console.log('Task not found.')
       res.status(404).json({
         error: 'Could not find task'
       })
     } else {
       if (updatedTask.isCompleted) {
+        console.log('Task has already been completed')
         res.status(403).json({
           error: "Task has already been completed"
         });
       } else {
-        console.log(update)
-        console.log(`to`)
-        console.log(updatedTask.updates);
+        console.log(`updating task`)
+        console.log(updatedTask)
         updatedTask.updates.push(update);
         updatedTask.soFar = update.soFar;
         if (updatedTask.soFar === updatedTask.completed) {
@@ -94,7 +89,6 @@ router.delete('/delete/:username/:id', (req, res) => {
       if(err) throw err
       db.Task.find({user: user}, (err, tasks)=>{
         if(err) return res.status(500);
-        console.log(`returning ${tasks}`)
         res.status(200).json(tasks)
       });
     })   
@@ -108,10 +102,16 @@ router.get('/by/:username', (req, res)=>{
   console.log(`retrieving tasks by ${req.params.username}`)
   db.User.findOne({username: req.params.username}, (err, user)=>{
     if(err) return res.status(500).json({error: 'Internal server error'});
-    if(user === null) return res.status(404).json({error: 'User not found'})
+    if(user === null) {
+      console.log('User not found')
+      return res.status(404).json({error: 'User not found'})
+    }
     db.Task.find({user: user}, (err, tasks)=>{
       if(err) return res.status(500).json({error: 'Internal server error'});
-      if(tasks === null) return res.status(404).json({error: 'Tasks not found'})
+      if(tasks === null) {
+        console.log('Tasks not found')
+        return res.status(404).json({error: 'Tasks not found'})
+      }
       res.status(200).json(tasks);
     })
   })

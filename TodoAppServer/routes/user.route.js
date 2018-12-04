@@ -7,8 +7,6 @@ const jwt = require('jsonwebtoken');
 const db = require('../models')
 
 router.post('/signup',  function(req, res) {
-   console.log(req.body)
-
    //Check if user exists with that username
    User.findOne({username: req.body.username}, (err, existingUser)=>{
       if (err) throw err;
@@ -41,7 +39,6 @@ router.post('/signup',  function(req, res) {
                        {
                          expiresIn: '2h'
                        });
-                       console.log(`sending ${JWTToken}`)
                        return res.status(200).json({
                          success: 'Welcome back!',
                          jwt: JWTToken,
@@ -83,7 +80,7 @@ router.post('/signup',  function(req, res) {
 /////// LOG IN ///////
 router.post('/login', function(req, res){
    console.log(`logging in`)
-   console.log(req.body)
+   console.log(req.body.username)
 
    User.findOne({username: req.body.username}, (err, user)=>{
       if(err) throw err;

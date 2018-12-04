@@ -8,36 +8,38 @@ class Todo extends Component{
     state ={
         name:'',
         isCompleted: false, 
+        completed: 1,
         dateSubmitted:0
     }
 
     componentDidMount(){
         this.setState({
             name: this.props.name,
-            isCompleted  :this.props.isCompleted  ,
-            dateSubmitted:this.props.dateSubmitted
+            isCompleted:this.props.isCompleted,
+            dateSubmitted:this.props.dateSubmitted,
         })
     }
 
-    toggleCheck =()=>{
-        let isCompleted   = this.state.isCompleted  ;
-        isCompleted   = !isCompleted  ;
-        this.setState({
-            isCompleted  
-        })
-        this.props.toggleCheck(this.props._id)
+    updateProgress = () =>{
+        let soFar = 1;
+		this.setState({
+            soFar,
+            isCompleted: true
+        });
+        
+        return this.props.updateProgress(this.props.id, 1)
     }
 
     render(){
         return(
             <View style={styles.todo}>
                 <Button
-                onPress={this.toggleCheck}
+                onPress={this.updateProgress}
                 >
-                    {!this.state.isCompleted   &&
+                    {!this.props.isCompleted   &&
                         <MaterialIcons name="check-box-outline-blank" size={24} color='#333' />
                     }
-                    {this.state.isCompleted   && 
+                    {this.props.isCompleted  && 
                         <MaterialCommunityIcons name="checkbox-marked-outline" size={24} color='#333' />
 
                     }

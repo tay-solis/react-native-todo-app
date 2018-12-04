@@ -13,7 +13,6 @@ class Progress extends Component{
     }
     render(){
         let percent = this.props.soFar / this.props.completed;
-        console.log(percent)
         return(
             <View style={styles.todo}>
             <View style={styles.todoTitle}>

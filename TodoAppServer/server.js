@@ -39,5 +39,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Wayfarer server is listening on port:${port}`);
+    console.log(`artWORK server is listening on port:${port}`);
 })

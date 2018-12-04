@@ -23,7 +23,8 @@ class Todos extends Component{
             id={todo.item._id}
             key={todo.item._id}
             dateSubmitted={todo.item.dateSubmitted}
-            toggleCheck = {this.props.toggleCheck}
+            updateProgress={this.props.updateProgress}
+            isCompleted={todo.item.isCompleted}
             completed={todo.item.completed}/>)}
           if (todo.item.type == 'progress') {
             return (<Progress

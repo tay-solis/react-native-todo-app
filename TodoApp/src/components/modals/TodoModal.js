@@ -6,7 +6,7 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 class TodoModal extends Component {
   state ={
     name:'',
-    completed:false,
+    isCompleted: false,
     dateSubmitted:0
 }
 
@@ -14,17 +14,18 @@ componentDidMount(){
     this.setState({
         name: this.props.selectedTodo.name,
         completed:this.props.selectedTodo.completed,
-        dateSubmitted:this.props.selectedTodo.dateSubmitted
+        dateSubmitted:this.props.selectedTodo.dateSubmitted,
+        isCompleted: this.props.selectedTodo.isCompleted
     })
 }
 
-toggleCheck =()=>{
-    let completed = this.state.completed;
-    completed = !completed;
-    this.setState({
-        completed
-    })
-    return this.props.toggleCheck(this.props.selectedTodo._id)
+updateProgress =()=>{
+  let soFar = 1;
+  this.setState({
+      soFar,
+      isCompleted: true
+  });
+  return this.props.updateProgress(this.props.selectedTodo._id, 1);
 }
 
   render(){
@@ -34,12 +35,12 @@ toggleCheck =()=>{
           style={styles.container}>
           <View style={styles.todo}>
                 <Button
-                onPress={this.toggleCheck}
+                onPress={this.updateProgress}
                 >
-                    {!this.state.completed &&
+                    {!this.state.isCompleted &&
                         <MaterialIcons name="check-box-outline-blank" size={24} color='#333' />
                     }
-                    {this.state.completed && 
+                    {this.state.isCompleted && 
                         <MaterialCommunityIcons name="checkbox-marked-outline" size={24} color='#333' />
 
                     }
