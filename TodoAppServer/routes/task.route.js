@@ -30,7 +30,7 @@ router.post('/create', (req, res) => {
           });
           savedTask.user = savedUser;
           savedTask.save((err) => {
-              if (err) throw err});
+          if (err) throw err});
           res.json(savedTask);
       });   
   });
@@ -84,17 +84,18 @@ router.put('/update/:id', (req, res) => {
 
 /////// DESTROY A TASK - RETURNS NEW ARRAY OF TODOS
 router.delete('/delete/:username/:id', (req, res) => {
-  let taskId = req.params.id;
-  console.log(`Deleting ${taskId}...`);
   db.Task.deleteOne({
-    _id: taskId
+    _id: req.params.id
   }, (err, deletedTask) => {
     if (err) throw err;
-    db.Task.find({user: req.params.username}, (err, tasks)=>{
-      if(err) return res.status(500);
-      res.status(200).json(tasks)
-    });
-    
+    db.User.findOne({username: req.params.username}, (err, user)=>{
+      if(err) throw err
+      db.Task.find({user: user}, (err, tasks)=>{
+        if(err) return res.status(500);
+        console.log(`returning ${tasks}`)
+        res.status(200).json(tasks)
+      });
+    })   
   })
 
 })

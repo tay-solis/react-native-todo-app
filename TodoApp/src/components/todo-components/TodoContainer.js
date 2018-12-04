@@ -52,7 +52,6 @@ export default class TodoContainer extends Component {
     todos[i].completed = !completed;
     };
   }
-  console.log(todos)
   this.setState({
     selectedTodo: null,
     todos
@@ -66,7 +65,6 @@ export default class TodoContainer extends Component {
     todos[i].soFar = updatedProgress
     };
   }
-  console.log(todos)
   this.setState({
     selectedProgress: null,
     todos
@@ -75,8 +73,6 @@ export default class TodoContainer extends Component {
 
 
   todoSubmitHandler = (newTodo) =>{
-    console.log(`creating task fro ${this.props.currentUser.username}`)
-    console.log(newTodo)
     axios({
       method: 'POST',
       url: `${rootUrl}/task/create`,
@@ -86,7 +82,6 @@ export default class TodoContainer extends Component {
       }
     })
     .then((res)=>{
-      console.log(`added ${res.data}`)
       let todos = this.state.todos;
       todos.push(res.data);
       this.setState({
@@ -140,10 +135,12 @@ export default class TodoContainer extends Component {
   }
 
   onDeletePress = (key) =>{
+    console.log(`${rootUrl}/task/delete/${this.props.currentUser.username}/${key}`)
     axios.delete(`${rootUrl}/task/delete/${this.props.currentUser.username}/${key}`)
     .then((res)=>{
-      console.log(res.data);
       let todos = res.data;
+      console.log('deleted')
+      console.log(todos);
       todos = todos.filter(todo => todo._id !== key);
       this.setState({
       todos,
@@ -155,7 +152,8 @@ export default class TodoContainer extends Component {
       onBubbleDetailsPress={this.onBubbleDetailsPress}
       onDeletePress={this.onDeletePress}
       />
-    });
+      
+    })
     })
   }
 
@@ -221,7 +219,6 @@ export default class TodoContainer extends Component {
       onBubbleDetailsPress={this.onBubbleDetailsPress}
       onDeletePress={this.onDeletePress}
       />
-      console.log()
       this.setState({
         todos,
         todosList
