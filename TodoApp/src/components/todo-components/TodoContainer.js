@@ -57,11 +57,10 @@ export default class TodoContainer extends Component {
       data: {
         id: todo._id,
         soFar: todo.soFar,
-        dateUpdated: Date.now()
+        dateUpdated: parseInt(Date.now(), 10)
       }
     })
     .then((res)=>{
-      alert(res.data)
       todos[todoIndex] = res.data;
       this.setState({
         todos,
@@ -73,9 +72,13 @@ export default class TodoContainer extends Component {
           onBubbleDetailsPress={this.onBubbleDetailsPress}
           onDeletePress={this.onDeletePress}
           />,
-          selectedProgress: null,
+        selectedTodo: null,
+        selectedProgress: null,
+        selectedBubble: null,
+        todoFormOpen: false,
         progressFormOpen: false,
-        bubbleFormOpen: false
+        bubbleFormOpen: false,
+        addModalOpen: false
       });
     });
 

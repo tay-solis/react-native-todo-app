@@ -1,7 +1,8 @@
 
 import React, {Component} from 'react'
-import { Modal, View, Text, StyleSheet} from 'react-native'
+import { ScrollView, Modal, View, Text, StyleSheet} from 'react-native'
 import {Button} from 'react-native-paper';
+import LineGraph from '../Metrics/LineGraph'
 
 import BubbleBar from '../todo-components/BubbleBar'
 
@@ -14,7 +15,8 @@ class BubbleModal extends Component {
 		added:0,
 		soFar:0,
 		completed:0,
-	  bubbles: []
+    bubbles: [],
+    chart: null
 	}
 
 	updateProgress =()=>{
@@ -34,7 +36,7 @@ class BubbleModal extends Component {
 
 
 	timeAgo =(past) =>{
-    let today = Date.now();
+    let today = parseInt(Date.now(), 10);
     let time = Math.floor((today - past) / (1000 * 60 * 60));
     if (time < 1) {
       time = Math.floor((today - past) / (1000 * 60));
@@ -81,9 +83,9 @@ class BubbleModal extends Component {
 
 		return(
     <Modal animationType="slide">
-        <View
-          style={styles.container}>
-            <Text style={styles.title}>{this.state.name}</Text>
+        <ScrollView>
+          <View style={styles.container}>
+          <Text style={styles.title}>{this.state.name}</Text>
           <Text>Created  {this.timeAgo(this.state.dateSubmitted)}</Text>
           <Text>Bubble so far: {this.state.soFar} / {this.state.completed}</Text>
           <Button
@@ -100,12 +102,16 @@ class BubbleModal extends Component {
 						Delete</Button>
             <Button
               title="Close"
-              color= '#be95ff'
+              color= '#bdbdbd'
             	onPress={this.props.onBubbleModalClose}>
 						Close</Button>
           </View>
           <BubbleBar bubbles={this.state.bubbles}/>
-        </View>
+          <LineGraph maxY={this.props.selectedBubble.completed} data={this.props.selectedBubble.updates}/>
+          </View>
+            
+
+        </ScrollView>
 
 
     </Modal>

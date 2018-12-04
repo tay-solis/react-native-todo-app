@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Modal, View, Text, StyleSheet} from 'react-native'
-import {ProgressBar, TextInput, Button, Snackbar} from 'react-native-paper';
+import {ProgressBar, TextInput, Button} from 'react-native-paper';
+import LineGraph from '../Metrics/LineGraph'
 
 
 
@@ -31,7 +32,7 @@ class ProgressModal extends Component {
 	}
 
 	timeAgo =(past) =>{
-    let today = Date.now();
+    let today = parseInt(Date.now(), 10);
     let time = Math.floor((today - past) / (1000 * 60 * 60));
     if (time < 1) {
       time = Math.floor((today - past) / (1000 * 60));
@@ -104,10 +105,12 @@ class ProgressModal extends Component {
 						Delete</Button>
             <Button
               title="Close"
-              color= '#be95ff'
+              color= '#bdbdbd'
             	onPress={this.props.onProgressModalClose}>
 						Close</Button>
           </View>
+
+          <LineGraph maxY={this.props.selectedProgress.completed} data={this.props.selectedProgress.updates}/>
         </View>
 
 

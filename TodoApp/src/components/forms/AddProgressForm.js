@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, View, Modal} from 'react-native'
 import {TextInput, Button} from 'react-native-paper'
 
+
 class AddProgressForm extends Component {
   state = {
     progressName: '',
@@ -20,7 +21,7 @@ class AddProgressForm extends Component {
   }
 
   progressSubmitHandler = ()=>{
-    let dateSubmitted = Date.now();
+    let dateSubmitted = parseInt(Date.now(), 10);
     let name = this.state.progressName;
     let completed = this.state.progressAmount;
     if(this.state.progressName.trim() === '') return;

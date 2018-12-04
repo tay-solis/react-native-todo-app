@@ -57,7 +57,7 @@ updateProgress =()=>{
               color='#F6D258'
               onPress={this.props.onDeleteModal}>Delete</Button>
             <Button
-              color= '#be95ff'
+              color= '#bdbdbd'
             onPress={this.props.onModalClose}>Close</Button>
           </View>
 
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 })
 
 const timeAgo =(past) =>{
-    let today = Date.now();
+    let today = parseInt(Date.now(), 10);
     let time = Math.floor((today - past) / (1000 * 60 * 60));
     if (time < 1) {
       time = Math.floor((today - past) / (1000 * 60));

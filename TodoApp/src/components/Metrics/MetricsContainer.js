@@ -5,11 +5,11 @@ import BarGraph from './BarGraph'
 
 
 const data = [
-    { x: 0, y: .2},
-    { x: 1, y: .3},
-    { x: 2, y: .5},
-    { x: 3, y: .5},
-    { x: 4, y: 1}
+    { soFar: 0, dateUpdated: .2},
+    { soFar: 1, dateUpdated: .3},
+    { soFar: 2, dateUpdated: .5},
+    { soFar: 3, dateUpdated: .5},
+    { soFar: 4, dateUpdated: 1}
   ];
 let barData = [
     {x: 1, y: 3, label: "F"},

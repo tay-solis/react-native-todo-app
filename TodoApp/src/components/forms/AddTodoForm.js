@@ -14,7 +14,7 @@ class AddTodoForm extends Component {
   }
 
   todoSubmitHandler = ()=>{
-    let dateSubmitted = Date.now();
+    let dateSubmitted = parseInt(Date.now(), 10);
     let name = this.state.todoName
     if(this.state.todoName.trim() === '') return;
     let newTodo = {

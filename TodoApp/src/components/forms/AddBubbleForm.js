@@ -24,7 +24,7 @@ class AddBubbleForm extends Component {
   }
 
   bubbleSubmitHandler = ()=>{
-    let dateSubmitted = Date.now();
+    let dateSubmitted = parseInt(Date.now(), 10);
     let name = this.state.bubbleName;
     let completed = this.state.bubbleAmount;
     if(name.trim() === '') return;
@@ -32,7 +32,6 @@ class AddBubbleForm extends Component {
       return alert('No, seriously, the max is 20!')
     }
     let newBubble = {
-      key: dateSubmitted,
       name,
       completed,
       soFar: 0,
