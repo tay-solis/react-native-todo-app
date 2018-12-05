@@ -27,7 +27,9 @@ export default class Main extends Component {
       jwt: '',
       currentUser: {},
       loading: true,
+      todoData: []
     }
+    this.updateGraphs = this.updateGraphs.bind(this);
     this.newJWT = this.newJWT.bind(this);
     this.deleteJWT = deviceStorage.deleteJWT.bind(this);
     this.loadJWT = deviceStorage.loadJWT.bind(this);
@@ -39,7 +41,14 @@ export default class Main extends Component {
       jwt: jwt,
       currentUser: user
     })
-  } 
+  }
+  
+  //Stores the todo data so it can be passed between metrics and the dashboard.
+  updateGraphs(todos){
+    this.setState({
+      todoData: todos
+    });
+  }
   
   render(){
     return (
@@ -53,7 +62,7 @@ export default class Main extends Component {
       }
 
       {this.state.jwt !== '' &&
-      <AppContainer currentUser={this.state.currentUser} deleteJWT={this.deleteJWT}/>
+      <AppContainer updateGraphs={this.updateGraphs} todoData={this.state.todoData} currentUser={this.state.currentUser} deleteJWT={this.deleteJWT}/>
       }
     </PaperProvider>
   );

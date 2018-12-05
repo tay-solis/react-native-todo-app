@@ -1,7 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, ScrollView, View } from "react-native";
-import axios from 'axios';
-import {rootUrl} from '../../config/constants'
 import BarGraph from './BarGraph'
 
 //  One Week in milliseconds: 604800000
@@ -33,7 +31,15 @@ class MetricsContainer extends React.Component {
   processData = (data) =>{
     let weekData = [];
     let actionsInWeek = 0;
-    let perWeek = this.state.perWeek;
+    let perWeek = [
+      {x: 0, y: 0, label: "Sn"},
+      {x: 1, y: 0, label: "M"},
+      {x: 2, y: 0, label: "T"},
+      {x: 3, y: 0, label: "W"},
+      {x: 4, y: 0, label: "Th"},
+      {x: 5, y: 0, label: "F"},
+      {x: 6, y: 0, label: "S"},
+    ];
     let today = parseInt(Date.now());
     for (let i = 0; i < data.length; i++){
       let date = data[i];
@@ -58,19 +64,11 @@ class MetricsContainer extends React.Component {
     })
   }
 
+  componentWillReceiveProps(){
+    this.processData(this.props.todoData); 
+  }
   componentDidMount(){
-    axios.get(`${rootUrl}/task/by/${this.props.currentUser.username}`)
-    .then((res)=>{
-      let todos = [];
-      for(let i = 0; i < res.data.length; i++){
-        todos.push(res.data[i])
-      }
-      this.setState({
-        todos
-      });
-      this.processData(todos);
-    });
-    
+    this.processData(this.props.todoData); 
   }
     render() {
       return (

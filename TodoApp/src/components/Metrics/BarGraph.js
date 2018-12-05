@@ -10,12 +10,12 @@ const BarGraph =(props) => {
             domainPadding={10}
         >
         <VictoryBar
-        style={{ data: { fill: "#c43a31" } }}
+        style={{ data: { fill: "#c43a31" }}}
         data={props.data}
 
         horizontal={true}
         labels={["S", "Sn", "M","T","W","Th", "F"]}
-        style={{ labels: { fill: "#c43a31" } }}
+        style={{ labels: { fill: "#F6D258" } }}
         labelComponent={<VictoryLabel dx={-30}/>}
         animate={{
             duration: 2000,

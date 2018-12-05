@@ -39,6 +39,10 @@ export default class TodoContainer extends Component {
   addModalOpen: false
   }
 
+  updateGraphs = (todos) =>{
+    return this.props.updateGraphs(todos);
+  }
+
   updateProgress = (key, updatedProgress) =>{
     let todo = null;
     let todoIndex = null;
@@ -80,6 +84,7 @@ export default class TodoContainer extends Component {
         bubbleFormOpen: false,
         addModalOpen: false
       });
+      this.updateGraphs(todos);
     });
 
   }
@@ -109,6 +114,7 @@ export default class TodoContainer extends Component {
         progressFormOpen: false,
         bubbleFormOpen: false
       });
+      this.updateGraphs(todos);
     });
   }
 
@@ -159,7 +165,8 @@ export default class TodoContainer extends Component {
       onDeletePress={this.onDeletePress}
       />
       
-    })
+      })
+      this.updateGraphs(todos);
     })
   }
 
@@ -228,8 +235,9 @@ export default class TodoContainer extends Component {
       this.setState({
         todos,
         todosList
-      })
-    })
+      });
+      this.updateGraphs(todos);
+    });
   }
 
   render() {

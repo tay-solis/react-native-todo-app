@@ -38,20 +38,14 @@ export default class AppContainer extends Component {
 
   _handleIndexChange = index => this.setState({index});
 
-  // _renderScene = BottomNavigation.SceneMap({
-  //   dashboard: TodoContainer,
-  //   upcoming: UpcomingContainer,
-  //   metrics: MetricsContainer,
-  //   profile: Profile});
-
   _renderScene = ({route}) => {
     switch (route.key) {
       case 'dashboard':
-        return <TodoContainer currentUser={this.props.currentUser}/>;
+        return <TodoContainer updateGraphs={this.props.updateGraphs} currentUser={this.props.currentUser}/>;
       case 'upcoming':
         return <UpcomingContainer/>;
       case 'metrics':
-        return <MetricsContainer currentUser={this.props.currentUser}/>;
+        return <MetricsContainer todoData={this.props.todoData} currentUser={this.props.currentUser}/>;
       case 'profile':
         return <Profile currentUser={this.props.currentUser} deleteJWT={this.props.deleteJWT}/>;
     }
