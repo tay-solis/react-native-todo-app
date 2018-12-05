@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "The Grind",
+    "name": "Art || Work",
     "description": "A productivity app created with creatives in mind.",
-    "slug": "grind",
+    "slug": "artwork",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": [
