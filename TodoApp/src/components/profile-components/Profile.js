@@ -1,34 +1,139 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image} from 'react-native'
-import {Button} from 'react-native-paper'
+import {StyleSheet, View, Text, Image, ScrollView} from 'react-native'
+import {Button, FAB, Divider,} from 'react-native-paper'
+import axios from 'axios';
+import {rootUrl} from '../../config/constants'
+import ProfileForm from '../forms/ProfileForm'
 
 class Profile extends Component{
-  static navigationOptions = {
-    title: 'Profile',
-  };
+  state = {
+    profile: null,
+    showProfileForm: false,
+    stats: null
+  }
+
+  calculateStats = (data) =>{
+    let stats = {
+      totalActions: 0,
+      completedTasks: 0
+    }
+    for(let i = 0; i < data.length; i++){
+      if(data[i].isCompleted) stats.completedTasks += 1;
+      for(let j = 0; j < data[i].updates.length; j++){
+        let amountUpdated = data[i].updates[j].soFar;
+        if(j >0){
+          amountUpdated -= data[i].updates[j-1].soFar
+        }
+        stats.totalActions += amountUpdated;
+      }
+    }
+    this.setState({
+      stats
+    });
+  }
+
+  componentDidMount(){
+    console.log(`${rootUrl}/user/profile/${this.props.currentUser.username}`)
+    axios.get(`${rootUrl}/user/profile/${this.props.currentUser.username}`)
+    .then((res)=>{
+      console.log(res.data)
+      this.setState({
+        profile: res.data
+      });
+    });
+    this.calculateStats(this.props.stats);
+  }
+  componentWillReceiveProps(){
+    this.calculateStats(this.props.stats);
+  }
+
   render(){
     return(
-      <View style={styles.profile}>
-      {this.props.currentUser !== null &&
-      <View style={styles.user}>
+      <ScrollView
+      style={{flex: 1, backgroundColor: '#F6D258'}}>
+        <View style={styles.profile}>
+      <View style={styles.header}>
+        <Image
+            style={styles.bee}
+            source={require('../../assets/profile-bee.png')}
+          />
+        <Text style={styles.title}>{this.props.currentUser.username}</Text>
+      </View>
+      
+      <Text style={styles.sectionHeader}>my profile info</Text>
+      {this.state.profile && 
+      <View style={styles.info}>
+          <FAB
+          style={styles.fab}
+          small
+          icon="mode-edit"
+          onPress={()=>this.setState({showProfileForm: true})}/>
+          <Text style={{
+            fontSize: 22
+          }}>{this.props.currentUser.firstName} {this.props.currentUser.lastName}</Text>
+          <Text style={{
+            color: '#424242'
+          }}>{this.state.profile.title}</Text>
+          <Text style={{
+            color: '#424242'
+          }}>{this.state.profile.location}</Text>
+          <Divider/>          
 
-        <Text style={styles.userGreeting}>{this.props.currentUser.username}</Text>
-        <View style={styles.profileInfo}>
-        <Text>Hello again!</Text>
+          <Text style={styles.bio}>{this.state.profile.bio}</Text>
+        
+      </View>
+      }
+      <Text style={styles.sectionHeader}>my stats</Text>
+      {this.state.stats &&
+      <View style={styles.info}>
+
+        <View style={styles.statHeader}> 
+          <Image
+            style={styles.icon}
+            source={require('../../assets/apitherapy.png')}
+          />
+          <Text style={styles.text}>Total Actions</Text>  
         </View>
-       </View>
-    
-    }
+        <View style={styles.stats}>
+          <Text style={styles.number}>{this.state.stats.totalActions}</Text>
+          <Text>Actions</Text>
+        </View>
+
+        <View style={styles.statHeader}> 
+        <Image
+            style={styles.icon}
+            source={require('../../assets/honey.png')}
+          />
+          <Text style={styles.text}>Tasks Completed</Text> 
+        </View>
+        <View style={styles.stats}>
+          <Text style={styles.number}>{this.state.stats.completedTasks}</Text>
+          <Text>Tasks</Text>
+        </View>
+        
+        
+        
+      </View>
+      }
+      {this.state.showProfileForm &&
+      <ProfileForm hideProfileForm={()=>this.setState({showProfileForm: false})}/> 
+      }
+
+      
+
         
         <View style={styles.settings}>
             <Button
+            
             mode='text'
             onPress={this.props.deleteJWT}
-            color='#bdbdbd'>
+            color='#424242'>
             Log Out
             </Button>
         </View>
       </View>
+      </ScrollView>
+      
     )
   }
 }
@@ -36,25 +141,67 @@ class Profile extends Component{
 const styles = StyleSheet.create({
   profile:{
     flex: 1,
-    padding: 30,
+    alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#F6D258',
   },
-  user:{
-    flex:1,
-    justifyContent: 'center',
+
+  header:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
-  userGreeting:{
+  sectionHeader:{
+    fontSize: 20, 
+    color: '#1b1b1b', 
+    letterSpacing: 3, 
+    margin: 5
+  },
+  bee: {
+    width: 150, 
+    height: 150, 
+    margin: 20
+  },
+  info:{
+    width: '100%',
+    padding: 20,
+    marginBottom: 40,
+    backgroundColor: '#FFF',
+  },
+  title:{
     fontSize: 24,
+    margin: 15
   },
-  profileImage:{
-    width: 75,
-    height: 75
+  text:{
+    fontSize: 18
   },
-  profileInfo:{
+  bio:{
+    fontSize: 18,
+    marginTop: 5
   },
-  settings:{
-    flex:1
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    top: 0,
+  },
+  icon: {
+    height: 40,
+    width: 40,
+    margin: 10
+  },
+  number:{
+    fontSize: 36,
+    margin: 3,
+    marginLeft: 40
+  },
+  statHeader:{
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  stats: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   }
 
 })

@@ -1,0 +1,95 @@
+import React, {Component} from 'react'
+import {View, StyleSheet, Modal,} from 'react-native'
+import { TextInput,  Button, } from 'react-native-paper';
+
+class ProfileForm extends Component{
+    state = {
+        todoName: '',
+      }
+    
+      todoNameChangedHandler = (val) =>{
+        this.setState({
+          todoName: val,
+        });
+      }
+    
+      todoSubmitHandler = ()=>{
+        let dateSubmitted = parseInt(Date.now(), 10);
+        let name = this.state.todoName
+        if(this.state.todoName.trim() === '') return;
+        let newTodo = {
+          key: dateSubmitted,
+          name,
+          type: 'checkbox',
+          soFar: 0,
+          completed: 1,
+          isCompleted: false,
+          dateSubmitted,
+          updates: [{
+            soFar: 0,
+            dateUpdated: dateSubmitted
+          }]
+        }
+        this.setState({
+          todoName: ''
+        })
+        return this.props.todoSubmitHandler(newTodo)
+      }
+    
+      render(){
+        return(
+          <Modal
+            animationType="fade">
+            <View style={styles.form}>
+              <View style={styles.inputsContainer}>
+              <TextInput
+                mode='outlined'
+                style={styles.inputs}
+                value={this.state.todoName}
+                onChangeText = {this.todoNameChangedHandler}
+                onSubmitEditing = {this.todoSubmitHandler}
+                label="What do you need to get done?"
+              />
+              <Button
+              style={styles.button}
+                mode='contained'
+                onPress={this.todoSubmitHandler}
+                color='#F6D258'>Add</Button>
+              </View>
+              <Button
+              style={styles.button}
+                mode='text'
+                onPress={this.props.hideProfileForm}
+                color='#bdbdbd'
+              >Nevermind</Button>
+            </View>
+    
+    
+          </Modal>
+    
+        );
+      }
+}
+
+const styles = StyleSheet.create({
+    form:{
+      flex:1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    inputsContainer:{
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+  
+    },
+    inputs:{
+      width: '70%',
+      height: 60
+    },
+    button:{
+    }
+  })
+
+export default ProfileForm

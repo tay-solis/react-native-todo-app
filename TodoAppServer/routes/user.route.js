@@ -14,41 +14,49 @@ router.post('/signup',  function(req, res) {
          User.findOne({email: req.body.email}, (err, existingEmail)=>{
             if(err) throw err;
             if(existingEmail === null){
-               const user = new User({
-                  _id: new  mongoose.Types.ObjectId(),
-                  firstName: req.body.firstName,
-                  lastName: req.body.lastName,
-                  username: req.body.username,
-                  email: req.body.email 
-               });
                
                bcrypt.genSalt(10, (err, salt) => {
                   bcrypt.hash(req.body.password, salt, (err, hash) => {
                     if(err) throw err;
-                    user.password = hash;
-                    user.save().then(function(result) {
-                     const JWTToken = jwt.sign({
-                        username: user.username,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        tasks: [],
-                        profile: {},
-                        _id: user._id
-                      },
-                      'secret',
-                       {
-                         expiresIn: '2h'
-                       });
-                       return res.status(200).json({
-                         success: 'Welcome back!',
-                         jwt: JWTToken,
-                         user: {
-                            username: user.username,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            _id: user._id
-                         }
-                       });
+                    const user = new User({
+                     _id: new  mongoose.Types.ObjectId(),
+                     firstName: req.body.firstName,
+                     lastName: req.body.lastName,
+                     username: req.body.username,
+                     email: req.body.email,
+                     password: hash 
+                  });
+                    user.save().then(()=> {
+                     db.Profile.create({
+                        _id: new  mongoose.Types.ObjectId(),
+                        user: user
+                     }, (err, profile) =>{
+                        if(err) throw err;
+                        console.log('created' + JSON.stringify(profile))
+                        user.profile = profile;
+                        const JWTToken = jwt.sign({
+                           username: user.username,
+                           firstName: user.firstName,
+                           lastName: user.lastName,
+                           tasks: [],
+                           profile: {},
+                           _id: user._id
+                         },
+                         'secret',
+                          {
+                            expiresIn: '2h'
+                          });
+                          return res.status(200).json({
+                            success: 'Welcome!',
+                            jwt: JWTToken,
+                            user: {
+                               username: user.username,
+                               firstName: user.firstName,
+                               lastName: user.lastName,
+                               _id: user._id
+                            }
+                          });
+                     });
                    }).catch(err=> {
                       res.status(500).json({
                          error: err
@@ -121,12 +129,29 @@ router.post('/login', function(req, res){
    });
 });
 
+/////// RETRIVE PROFILE INFO ///////
+router.get('/profile/:username', (req,res)=>{
+   User.findOne({username: req.params.username}, (err, user)=>{
+      if (err) throw err;
+      console.log(req.params.username)
+      if(user === null) return res.status(404).json({error: "User not found"});
+      
+      db.Profile.findOne({user: user})
+   .exec((err, profile)=>{
+      if(err) throw err;
+      res.json(profile)
+  })
+   });
+});
+
+
 /////// RETRIEVE USER INFO, INCLUDING TASKS ///////
 router.get('/:username', (req,res)=>{
    db.User.find({username: req.params.username})
    .populate({path: 'tasks', model: db.Task})
    .exec((err, users)=>{
       if(err) throw err;
+      console.log(`retrieved ${users[0]}`)
       res.json(users[0])
   })
 });

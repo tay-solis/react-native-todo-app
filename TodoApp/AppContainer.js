@@ -47,7 +47,7 @@ export default class AppContainer extends Component {
       case 'metrics':
         return <MetricsContainer todoData={this.props.todoData} currentUser={this.props.currentUser}/>;
       case 'profile':
-        return <Profile currentUser={this.props.currentUser} deleteJWT={this.props.deleteJWT}/>;
+        return <Profile stats={this.props.todoData} currentUser={this.props.currentUser} deleteJWT={this.props.deleteJWT}/>;
     }
   }
 

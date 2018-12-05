@@ -3,17 +3,20 @@ const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    title:{
+      type: String,
+      default: 'Just a Human Bean'
+    },
     location: {
       type: String,
-      required: true,
+      default: 'Citizen of the World'
     },
     websiteUrl: {
-      type: String,
-      required: true,
+      type: String
     },
     bio: {
       type: String,
-      required: true,
+      default: 'Tell us about yourself!'
     },
     user:{
       type: Schema.Types.ObjectId,
