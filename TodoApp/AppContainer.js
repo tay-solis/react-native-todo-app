@@ -17,11 +17,11 @@ export default class AppContainer extends Component {
         title: 'Dashboard',
         icon: 'view-day',
       }, 
-      {
-        key: 'upcoming',
-        title: 'Upcoming',
-        icon: 'today'
-      },
+      // {
+      //   key: 'upcoming',
+      //   title: 'Upcoming',
+      //   icon: 'today'
+      // },
       {
         key: 'metrics',
         title: 'Metrics',
@@ -42,8 +42,8 @@ export default class AppContainer extends Component {
     switch (route.key) {
       case 'dashboard':
         return <TodoContainer updateGraphs={this.props.updateGraphs} currentUser={this.props.currentUser}/>;
-      case 'upcoming':
-        return <UpcomingContainer/>;
+      // case 'upcoming':
+      //   return <UpcomingContainer/>;
       case 'metrics':
         return <MetricsContainer todoData={this.props.todoData} currentUser={this.props.currentUser}/>;
       case 'profile':

@@ -118,7 +118,8 @@ class MetricsContainer extends React.Component {
     },
     number: {
       fontSize: 50,
-      textAlign:"center"
+      textAlign:"center",
+      color: '#F6D258',
     }
   });
 

@@ -15,8 +15,12 @@ componentDidMount(){
         name: this.props.selectedTodo.name,
         completed:this.props.selectedTodo.completed,
         dateSubmitted:this.props.selectedTodo.dateSubmitted,
-        isCompleted: this.props.selectedTodo.isCompleted
+        isCompleted: this.props.selectedTodo.isCompleted,
     })
+}
+
+onDeletePress =()=>{
+  return this.props.onDeletePress(this.props.selectedTodo._id)
 }
 
 updateProgress =()=>{
@@ -51,11 +55,11 @@ updateProgress =()=>{
                 </Text>
             </View>
           
-          <Text>Created  {timeAgo(this.state.dateSubmitted)}</Text>
+          <Text style={styles.text}>Created  {timeAgo(this.state.dateSubmitted)}</Text>
           <View style={styles.buttons}>
             <Button
               color='#F6D258'
-              onPress={this.props.onDeleteModal}>Delete</Button>
+              onPress={this.onDeletePress}>Delete</Button>
             <Button
               color= '#bdbdbd'
             onPress={this.props.onModalClose}>Close</Button>
@@ -76,6 +80,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30
   },
+  text:{
+  },
   todo:{
 		width: '100%',
 		padding: 10,
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
     margin: 10,
   },

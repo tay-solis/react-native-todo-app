@@ -7,10 +7,10 @@ import deviceStorage from './src/services/deviceStorage'
 const defaultTheme = {
   ...DefaultTheme,
   fonts: {
-    regular: 'Open Sans',
-    medium: 'Open Sans',
-    light: 'Open Sans Light',
-    thin: 'Open Sans Thin',
+    regular: 'Poppins',
+    medium: 'Poppins',
+    light: 'Poppins Light',
+    thin: 'Poppins Thin',
   },
   roundness: 4,
   colors: {

@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
 		paddingLeft: 30, 
-		height: 75
+    height: 75,
+    flexWrap: 'wrap'
 		
   },
   todoText:{

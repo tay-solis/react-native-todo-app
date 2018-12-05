@@ -16,7 +16,7 @@ class Progress extends Component{
         return(
             <View style={styles.todo}>
             <View style={styles.todoTitle}>
-                <Text style={styles.todoText}>{this.props.completed} {this.props.name}</Text>
+                <Text style={styles.todoText}>{this.props.name} ({this.props.completed})</Text>
                 <Text>Progress so far: {`${Math.floor(percent * 100)}%`}</Text>
             </View>
                 
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     },
     todoTitle:{
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexWrap: 'wrap'
     },
     todoText:{
       fontSize: 20,

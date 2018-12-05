@@ -27,6 +27,7 @@ class Home extends Component{
     <Text style={styles.tagline}>ART || WORK</Text>
     <Button
         mode='text'
+        mode = 'contained'
         onPress={()=>{this.setState({showAuth: true})}}
         color='#000'
       >Ready to get to work?</Button>
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     },
   tagline: {
     fontSize: 40,
-    fontFamily: 'Hack'
+    fontFamily: 'Gruppo'
   }
 })
 

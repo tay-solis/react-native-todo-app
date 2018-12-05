@@ -32,7 +32,11 @@ class BubbleModal extends Component {
     });
     
 		return this.props.updateProgress(this.props.selectedBubble._id, updatedAmount)
-	}		
+  }	
+  
+  onDeletePress =()=>{
+    return this.props.onDeletePress(this.props.selectedBubble._id)
+  }
 
 
 	timeAgo =(past) =>{
@@ -71,7 +75,7 @@ class BubbleModal extends Component {
       }
     }
 		this.setState({
-			name: this.props.name,
+			name: this.props.selectedBubble.name,
 			dateSubmitted: this.props.selectedBubble.dateSubmitted,
 			soFar: this.props.selectedBubble.soFar,
       completed: this.props.selectedBubble.completed,
@@ -86,8 +90,8 @@ class BubbleModal extends Component {
         <ScrollView>
           <View style={styles.container}>
           <Text style={styles.title}>{this.state.name}</Text>
-          <Text>Created  {this.timeAgo(this.state.dateSubmitted)}</Text>
-          <Text>Bubble so far: {this.state.soFar} / {this.state.completed}</Text>
+          <Text style={styles.text}>Created  {this.timeAgo(this.state.dateSubmitted)}</Text>
+          <Text style={styles.text}>Bubble so far: {this.state.soFar} / {this.state.completed}</Text>
           <Button
             mode='contained'
             color='#F6D258'
@@ -97,7 +101,7 @@ class BubbleModal extends Component {
 					<View style={styles.buttons}>
             <Button
               color='#F6D258'
-              onPress={this.props.onBubbleDeleteModal}
+              onPress={this.onDeletePress}
               >
 						Delete</Button>
             <Button
@@ -128,9 +132,11 @@ const styles = StyleSheet.create({
     padding: 30
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
     margin: 10,
+  },
+  text:{
   },
   buttons:{
     flexDirection: 'row'

@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
 		padding: 10,
         backgroundColor: '#eee',
         flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingRight: 20, 

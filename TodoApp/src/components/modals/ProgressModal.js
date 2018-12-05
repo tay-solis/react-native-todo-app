@@ -56,6 +56,10 @@ class ProgressModal extends Component {
     });
   }
 
+  onDeletePress =()=>{
+    return this.props.onDeletePress(this.props.selectedProgress._id)
+  }
+
 	
 	componentDidMount(){
 		this.setState({
@@ -100,7 +104,7 @@ class ProgressModal extends Component {
 					<View style={styles.buttons}>
             <Button
               color='#F6D258'
-              onPress={this.props.onProgressDeleteModal}
+              onPress={this.onDeletePress}
               >
 						Delete</Button>
             <Button
@@ -127,9 +131,11 @@ const styles = StyleSheet.create({
     padding: 30
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
     margin: 10,
+  },
+  text: {
   },
   buttons:{
     flexDirection: 'row'

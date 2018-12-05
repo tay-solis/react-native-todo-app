@@ -97,10 +97,10 @@ class Profile extends Component{
           <Text style={{
             color: '#424242'
           }}>{this.state.location}</Text>
-          <Divider/>          
+          <Divider style={styles.divider}/>          
 
           <Text style={styles.bio}>{this.state.bio}</Text>
-          <Divider/>
+          <Divider style={styles.divider}/>
 
           <Button
           icon="mode-edit"
@@ -191,6 +191,11 @@ const styles = StyleSheet.create({
     width: 150, 
     height: 150, 
     margin: 20
+  },
+  divider:{
+    color: '#F6D258',
+    marginTop: 10,
+    marginBottom: 10
   },
   info:{
     width: '100%',

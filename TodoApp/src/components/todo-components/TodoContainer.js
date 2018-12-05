@@ -88,6 +88,7 @@ export default class TodoContainer extends Component {
     });
 
   }
+  
   todoSubmitHandler = (newTodo) =>{
     axios({
       method: 'POST',
@@ -155,6 +156,9 @@ export default class TodoContainer extends Component {
 
       todos = todos.filter(todo => todo._id !== key);
       this.setState({
+      selectedTodo: null,
+      selectedProgress: null,
+      selectedBubble: null,
       todos,
       todosList: <Todos
       todos={todos}
@@ -168,36 +172,6 @@ export default class TodoContainer extends Component {
       })
       this.updateGraphs(todos);
     })
-  }
-
-  onDeleteModal = (key) =>{
-  this.setState(prevState =>{
-    return{
-    selectedTodo: null,
-    todos: prevState.todos.filter((todo)=>{
-      return todo._id !== key;
-    })}
-  })
-  }
-
-  onProgressDeleteModal = (key) =>{
-  this.setState(prevState =>{
-    return{
-    selectedProgress: null,
-    todos: prevState.todos.filter((todo)=>{
-      return todo._id !== key;
-    })}
-  })
-  }
-
-  onBubbleDeleteModal = (key) =>{
-  this.setState(prevState =>{
-    return{
-    selectedBubble: null,
-    todos: prevState.todos.filter((todo)=>{
-      return todo.key !== key;
-    })}
-  })
   }
 
   onModalClose =()=>{
@@ -249,7 +223,7 @@ export default class TodoContainer extends Component {
       <TodoModal
       selectedTodo={this.state.selectedTodo}
       updateProgress={this.updateProgress}
-      onDeleteModal={this.onDeleteModal}
+      onDeletePress={this.onDeletePress}
       onModalClose={this.onModalClose}
       />
     }
@@ -257,7 +231,7 @@ export default class TodoContainer extends Component {
     {this.state.selectedProgress &&
       <ProgressModal
       selectedProgress={this.state.selectedProgress}
-      onProgressDeleteModal={this.onProgressDeleteModal}
+      onDeletePress={this.onDeletePress}
       onProgressModalClose={this.onProgressModalClose}
       updateProgress={this.updateProgress}
       />
@@ -266,7 +240,7 @@ export default class TodoContainer extends Component {
     {this.state.selectedBubble &&
       <BubbleModal
       selectedBubble={this.state.selectedBubble}
-      onBubbleDeleteModal={this.onBubbleDeleteModal}
+      onDeletePress={this.onDeletePress}
       onBubbleModalClose={this.onBubbleModalClose}
       updateProgress={this.updateProgress}
       />
