@@ -129,6 +129,23 @@ router.post('/login', function(req, res){
    });
 });
 
+/////// UPDATE USER PROFILE ///////
+router.put('/profile/update/:username', (req,res)=>{
+   console.log(req.body)
+   let updatedProfile = req.body.profile;
+   User.findOne({username: req.params.username}, (err, user)=>{
+      if(err) throw err;
+      if(user == null) return res.status(404).json({error: "User not found"});
+      db.Profile.findOneAndUpdate({user:user}, updatedProfile, (err, profile)=>{
+         if(err) throw err;
+         if(profile == null) return res.status(404).json({error: "Profile not found"});
+         
+         res.json(profile);
+      })
+   })
+   
+})
+
 /////// RETRIVE PROFILE INFO ///////
 router.get('/profile/:username', (req,res)=>{
    User.findOne({username: req.params.username}, (err, user)=>{
@@ -147,7 +164,7 @@ router.get('/profile/:username', (req,res)=>{
 
 /////// RETRIEVE USER INFO, INCLUDING TASKS ///////
 router.get('/:username', (req,res)=>{
-   db.User.find({username: req.params.username})
+   User.find({username: req.params.username})
    .populate({path: 'tasks', model: db.Task})
    .exec((err, users)=>{
       if(err) throw err;

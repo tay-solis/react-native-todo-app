@@ -7,7 +7,9 @@ import ProfileForm from '../forms/ProfileForm'
 
 class Profile extends Component{
   state = {
-    profile: null,
+    title: '',
+    location: '',
+    bio: '',
     showProfileForm: false,
     stats: null
   }
@@ -32,17 +34,40 @@ class Profile extends Component{
     });
   }
 
+  submitHandler = (updatedProfile) =>{
+    axios({
+      method: 'Put',
+      url: `${rootUrl}/user/profile/update/${this.props.currentUser.username}`,
+      data:{
+        profile: updatedProfile,
+      }
+    })
+    .then((res)=>{
+      console.log(res.data)
+      this.setState({
+        title: updatedProfile.title,
+        location: updatedProfile.location,
+        bio: updatedProfile.bio,
+        showProfileForm: false
+      });
+    });
+  }
+
+
   componentDidMount(){
     console.log(`${rootUrl}/user/profile/${this.props.currentUser.username}`)
     axios.get(`${rootUrl}/user/profile/${this.props.currentUser.username}`)
     .then((res)=>{
       console.log(res.data)
       this.setState({
-        profile: res.data
+        title: res.data.title,
+        location: res.data.location,
+        bio: res.data.bio
       });
     });
     this.calculateStats(this.props.stats);
   }
+
   componentWillReceiveProps(){
     this.calculateStats(this.props.stats);
   }
@@ -61,25 +86,25 @@ class Profile extends Component{
       </View>
       
       <Text style={styles.sectionHeader}>my profile info</Text>
-      {this.state.profile && 
+      {this.props.currentUser && 
       <View style={styles.info}>
-          <FAB
-          style={styles.fab}
-          small
-          icon="mode-edit"
-          onPress={()=>this.setState({showProfileForm: true})}/>
           <Text style={{
             fontSize: 22
           }}>{this.props.currentUser.firstName} {this.props.currentUser.lastName}</Text>
           <Text style={{
             color: '#424242'
-          }}>{this.state.profile.title}</Text>
+          }}>{this.state.title}</Text>
           <Text style={{
             color: '#424242'
-          }}>{this.state.profile.location}</Text>
+          }}>{this.state.location}</Text>
           <Divider/>          
 
-          <Text style={styles.bio}>{this.state.profile.bio}</Text>
+          <Text style={styles.bio}>{this.state.bio}</Text>
+          <Divider/>
+
+          <Button
+          icon="mode-edit"
+          onPress={()=>{this.setState({showProfileForm: true})}}>Edit My Profile</Button>
         
       </View>
       }
@@ -116,7 +141,12 @@ class Profile extends Component{
       </View>
       }
       {this.state.showProfileForm &&
-      <ProfileForm hideProfileForm={()=>this.setState({showProfileForm: false})}/> 
+      <ProfileForm 
+        submitHandler={this.submitHandler} 
+        title= {this.state.title}
+        bio= {this.state.bio}
+        location= {this.state.location}
+        hideProfileForm={()=>this.setState({showProfileForm: false})}/> 
       }
 
       
@@ -182,7 +212,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     margin: 16,
-    right: 0,
+    right: 10,
     top: 0,
   },
   icon: {
