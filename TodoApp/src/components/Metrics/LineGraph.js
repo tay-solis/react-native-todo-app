@@ -25,7 +25,7 @@ class LineGraph extends React.Component {
         <VictoryChart
             theme={VictoryTheme.material}
         >
-        {!loading &&
+        {!loading && this.state.data.length > 1 &&
           <VictoryArea
           domain={{y: [0, this.props.maxY]}}
           style={{ data: { fill: "#F6D258" } }}

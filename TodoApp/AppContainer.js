@@ -51,7 +51,7 @@ export default class AppContainer extends Component {
       case 'upcoming':
         return <UpcomingContainer/>;
       case 'metrics':
-        return <MetricsContainer/>;
+        return <MetricsContainer currentUser={this.props.currentUser}/>;
       case 'profile':
         return <Profile currentUser={this.props.currentUser} deleteJWT={this.props.deleteJWT}/>;
     }
