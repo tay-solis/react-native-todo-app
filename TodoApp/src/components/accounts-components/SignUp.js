@@ -140,7 +140,7 @@ class SignUp extends Component {
         this.props.newJWT(res.jwt, user);
       })
       .catch(error => {
-        alert(error);
+        alert(error.response.data.error);
       });
     }
   }
@@ -160,6 +160,7 @@ class SignUp extends Component {
               label="First Name"
             />
             <HelperText
+            style={{width:300}}
               type="error"
               visible={!this.isOnlyLetters(this.state.firstName) && this.state.hasBeenEdited}
             >
@@ -174,6 +175,7 @@ class SignUp extends Component {
               label="Last Name"
             />
             <HelperText
+            style={{width:300}}
               type="error"
               visible={!this.isOnlyLetters(this.state.lastName) && this.state.hasBeenEdited}
             >
@@ -188,6 +190,7 @@ class SignUp extends Component {
               label="Email"
             />
             <HelperText
+            style={{width:300}}
               type="error"
               visible={!this.isValidEmail(this.state.email) && this.state.hasBeenEdited}
             >
@@ -202,6 +205,7 @@ class SignUp extends Component {
               label="Username"
             />
             <HelperText
+              style={{width:300}}
               type="error"
               visible={!this.isValidEmail(this.state.email) && this.state.hasBeenEdited}
             >
@@ -226,6 +230,7 @@ class SignUp extends Component {
             />
             <HelperText
               type="error"
+              style={{width:300}}
               visible={!this.isValidPassword(this.state.password1) && this.state.hasBeenEdited}
             >
             Password must contain: uppercase and lowercase letter, special character(!@#$%^&*), and number.
@@ -233,6 +238,7 @@ class SignUp extends Component {
             <HelperText
               type="error"
               visible={this.state.password1 !== this.state.password2}
+              style={{width:300}}
             >
             Passwords do not match.
             </HelperText>

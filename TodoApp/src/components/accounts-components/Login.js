@@ -53,7 +53,8 @@ import React, {
           this.props.newJWT(res.jwt, user);
         })
         .catch((error) => {
-          console.error(error);
+          if(error.response.status === 401) alert('Username or password were not valid. Try again?')
+          console.log(error);
         });
       }
   

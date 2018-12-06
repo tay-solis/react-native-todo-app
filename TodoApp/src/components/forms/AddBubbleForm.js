@@ -24,10 +24,11 @@ class AddBubbleForm extends Component {
   }
 
   bubbleSubmitHandler = ()=>{
+    if(this.state.bubbleAmount.trim() === '') return;
+    if (this.state.bubbleAmount < 1 || !Number.isInteger(Number(this.state.bubbleAmount))) return alert('Please enter a whole number! We don\'t half do anything \'round these parts!')
     let dateSubmitted = parseInt(Date.now(), 10);
     let name = this.state.bubbleName;
     let completed = this.state.bubbleAmount;
-    if(name.trim() === '') return;
     if(completed > 20){
       return alert('No, seriously, the max is 20!')
     }

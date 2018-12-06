@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
 
   header:{
     flexDirection: 'row',
+    flewWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center'
   },

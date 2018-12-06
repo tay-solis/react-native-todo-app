@@ -21,10 +21,11 @@ class AddProgressForm extends Component {
   }
 
   progressSubmitHandler = ()=>{
+    if(this.state.progressName.trim() === '') return;
+    if (this.state.progressAmount < 1 || !Number.isInteger(Number(this.state.progressAmount))) return alert('Please enter a whole number! We don\'t half do anything \'round these parts!')
     let dateSubmitted = parseInt(Date.now(), 10);
     let name = this.state.progressName;
     let completed = this.state.progressAmount;
-    if(this.state.progressName.trim() === '') return;
     let newProgress = {
       key: dateSubmitted,
       name,

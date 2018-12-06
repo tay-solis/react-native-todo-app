@@ -45,7 +45,7 @@ I didn't do the styling myself. Instead, I used Material's [React Native Paper l
 All of the icons in the app are either provided by Expo or [Flaticon.com](https://www.flaticon.com/).
 
 ## Victories && Challenges
-- To be honest, having a working mobile app is a huge boost in confidence in itself. While I do have experience working in React, I hadn't ever used React Native before this project. I expected it to be an easy jump — it's just React, right? Turns out, it's *not.* I had to dive into the deep end to get this project running the way I envisioned it. So many libraries! New names for everything! Styling without CSS! 
+- To be honest, having a working mobile app is a huge vicotry in itself. While I do have experience working in React, I hadn't ever used React Native before this project. I expected it to be an easy jump — it's just React, right? Turns out, it's *not.* I had to dive into the deep end to get this project running the way I envisioned it. So many libraries! New names for everything! Styling without CSS! 
 
 #### A few more specific victories: 
 - **Auth on Mobile:** I've worked on auth in the browser, but mobile's system for storing is way different, and it's even different specifically for expo. When tutorials weren't enough, I had to turn to the docs to figure out what exactly was going on, and ended up with a clear and simple solution.
