@@ -30,7 +30,7 @@ class ProfileForm extends Component{
       submitHandler = ()=>{
         if(this.state.title.trim() === '' ||
           this.state.bio.trim() === '' ||
-          this.state.location.trim() === '') return;
+          this.state.location.trim() === '') return alert('You missed a spot ;)');
         let editedProfile = {
           title: this.state.title,
           bio: this.state.bio,

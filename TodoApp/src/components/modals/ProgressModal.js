@@ -18,6 +18,7 @@ class ProgressModal extends Component {
 	}
 
 	updateProgress =()=>{
+    if (this.state.added < 1 || !Number.isInteger(Number(this.state.added))) return alert('Please enter a whole number! We don\'t half do anything \'round these parts!')
 		let soFar = this.state.soFar;
 		let updatedAmount = soFar + parseInt(this.state.added, 10);
 		if(updatedAmount  > this.state.completed) {
